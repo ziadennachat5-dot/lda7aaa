@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" id="meta-theme-color" content="#FFFFFF">
+  <title data-i18n="meta.title">DLA7A SERVICE | Ù…Ù†ØµØ© Ø®Ø¯Ù…Ø§Øª Ø§Ù„ØªÙˆØ§ØµÙ„ Ø§Ù„Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠ ÙˆØ§Ù„Ø­Ø³Ø§Ø¨Ø§Øª Ø§Ù„Ø±Ù‚Ù…ÙŠØ© Ø¨Ø§Ù„Ù…ØºØ±Ø¨</title>
+  <meta name="description" data-i18n="meta.description" content="Ù†ÙˆÙØ± Ø®Ø¯Ù…Ø§Øª Ø§Ø­ØªØ±Ø§ÙÙŠØ© Ù„Ø¥Ù†Ø³ØªØºØ±Ø§Ù…ØŒ ØªÙŠÙƒ ØªÙˆÙƒØŒ ÙÙŠØ³Ø¨ÙˆÙƒØŒ Ø­Ø³Ø§Ø¨Ø§Øª Ø±Ù‚Ù…ÙŠØ© Ø±Ø³Ù…ÙŠØ© Netflix Ùˆ ChatGPTØŒ Ø£Ø±Ù‚Ø§Ù… ÙˆØ§ØªØ³Ø§Ø¨ ÙˆØ´Ø­Ù† Ø£Ù„Ø¹Ø§Ø¨ Free Fire Ùˆ PES ÙÙŠ Ø§Ù„Ù…ØºØ±Ø¨.">
+  
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('theme');
+        if (!t) {
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+
+        // Intro splash screen early check
+        var params = new URLSearchParams(window.location.search);
+        var forceReplay = params.get('intro') === '1' || params.get('replay') === '1';
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var seen = sessionStorage.getItem('dla7a_intro_seen');
+        if ((seen && !forceReplay) || reducedMotion) {
+          document.documentElement.classList.add('skip-intro');
+        }
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    })();
+  </script>
+
+  <style id="intro-styles">
+    /* WELCOME INTRO SPLASH SCREEN STYLES */
+    .skip-intro #welcome-intro-overlay,
+    #welcome-intro-overlay.intro-hidden {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      opacity: 0 !important;
+    }
+
+    #welcome-intro-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      z-index: 999999;
+      overflow: hidden;
+      background: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      direction: ltr;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    .intro-curtain-top,
+    .intro-curtain-bottom {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50.5dvh;
+      background: #000000;
+      z-index: 1;
+      transition: transform 600ms cubic-bezier(0.76, 0, 0.24, 1);
+      will-change: transform;
+    }
+
+    .intro-curtain-top {
+      top: 0;
+    }
+
+    .intro-curtain-bottom {
+      bottom: 0;
+    }
+
+    .intro-exiting .intro-curtain-top {
+      transform: translateY(-100%);
+    }
+
+    .intro-exiting .intro-curtain-bottom {
+      transform: translateY(100%);
+    }
+
+    .intro-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      width: 100vw;
+      height: 100dvh;
+      min-height: 100dvh;
+      padding-inline: 16px;
+      box-sizing: border-box;
+      z-index: 2;
+      color: #FFFFFF;
+      pointer-events: none;
+      transition: opacity 300ms ease;
+    }
+
+    .intro-exiting .intro-content {
+      opacity: 0;
+    }
+
+    .intro-skip-btn {
+      position: absolute;
+      top: 20px;
+      inset-inline-end: 20px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #A1A1AA;
+      border-radius: 999px;
+      padding: 10px 18px;
+      min-width: 44px;
+      min-height: 44px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      pointer-events: auto;
+      transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+    }
+
+    .intro-skip-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .intro-skip-btn:active {
+      transform: scale(0.96);
+    }
+
+    .intro-pulse-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #FFFFFF;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.5);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      transition: opacity 300ms ease, transform 300ms ease;
+      flex-shrink: 0;
+    }
+
+    .intro-pulse-dot.active {
+      opacity: 1;
+      transform: scale(1);
+      animation: introDotPulse 1.2s infinite ease-in-out;
+    }
+
+    @keyframes introDotPulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.4); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+
+    .intro-line {
+      height: 2px;
+      width: 0px;
+      background: #FFFFFF;
+      border-radius: 2px;
+      transition: width 500ms cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+      flex-shrink: 0;
+    }
+
+    .intro-line.active {
+      width: 120px;
+    }
+
+    .intro-wordmark {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.02em;
+      font-size: clamp(48px, 16vw, 120px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      white-space: nowrap;
+      direction: ltr;
+      line-height: 1;
+      max-width: 100%;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .intro-letter-wrapper {
+      overflow: hidden;
+      display: inline-block;
+      line-height: 1.2;
+      padding-block: 0.12em;
+      vertical-align: bottom;
+    }
+
+    .intro-letter {
+      display: inline-block;
+      transform: translateY(110%);
+      opacity: 0;
+      transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 600ms ease-out;
+      will-change: transform, opacity;
+    }
+
+    .intro-letter.active {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+
+    .intro-service-text {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      color: #A1A1AA;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 500ms ease-out, transform 500ms ease-out;
+      margin-inline-start: 0.35em;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 768px) {
+      .intro-service-text {
+        font-size: 18px;
+      }
+    }
+
+    .intro-service-text.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro-tagline {
+      font-size: clamp(15px, 4.2vw, 18px);
+      font-weight: 400;
+      color: #D4D4D8;
+      text-align: center;
+      max-width: 90%;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 500ms ease-out, transform 500ms ease-out;
+      padding-inline: 12px;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .intro-tagline.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro-progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: #FFFFFF;
+      z-index: 10;
+      transition: width 2200ms linear;
+    }
+
+    .intro-progress-bar.active {
+      width: 100%;
+    }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="hero-premium.css?v=1">
+</head>
+<body>
+
+  <!-- WELCOME INTRO SPLASH SCREEN OVERLAY (First Child of Body) -->
+  <div id="welcome-intro-overlay" dir="ltr" aria-hidden="true">
+    <div class="intro-curtain-top"></div>
+    <div class="intro-curtain-bottom"></div>
+    <button type="button" id="intro-skip-btn" class="intro-skip-btn">Skip</button>
+    <div class="intro-content">
+      <div id="intro-pulse-dot" class="intro-pulse-dot"></div>
+      <div id="intro-line" class="intro-line"></div>
+      <div class="intro-wordmark" dir="ltr">
+        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 0ms;">D</span></span>
+        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 70ms;">L</span></span>
+        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 140ms;">A</span></span>
+        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 210ms;">7</span></span>
+        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 280ms;">A</span></span>
+      </div>
+      <div id="intro-service-text" class="intro-service-text">SERVICE</div>
+      <div id="intro-tagline" class="intro-tagline">Morocco's #1 digital services platform</div>
+    </div>
+    <div id="intro-progress-bar" class="intro-progress-bar"></div>
+  </div>
+
+  <!-- Floating Pill Header / Navbar -->
+  <header class="navbar-wrapper">
+    <div class="navbar-pill">
+      <a href="#hero" class="brand-wordmark">
+        <span class="brand-bold">DLA7A</span>
+        <span class="brand-light">SERVICE</span>
+      </a>
+
+      <!-- Desktop Nav Links (5 links only) -->
+      <nav class="nav-links-desktop">
+        <a href="#services" class="nav-link" data-i18n="nav.services">Ø®Ø¯Ù…Ø§ØªÙ†Ø§</a>
+        <a href="#pricing" class="nav-link" data-i18n="nav.pricing">Ø§Ù„Ø£Ø³Ø¹Ø§Ø±</a>
+        <a href="#accounts" class="nav-link" data-i18n="nav.accounts">Ø§Ù„Ø­Ø³Ø§Ø¨Ø§Øª</a>
+        <a href="#testimonials" class="nav-link" data-i18n="nav.reviews">Ø¢Ø±Ø§Ø¡ Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡</a>
+        <a href="#contact" class="nav-link" data-i18n="nav.contact">ØªÙˆØ§ØµÙ„ Ù…Ø¹Ù†Ø§</a>
+      </nav>
+
+      <!-- Desktop Actions Group -->
+      <div class="nav-actions-desktop">
+        <button type="button" data-theme-toggle id="theme-toggle-desktop" class="nav-action-btn theme-circle-btn" aria-label="Toggle theme">â˜€ï¸</button>
+        <button id="lang-toggle-desktop" class="nav-action-btn lang-pill-btn" data-i18n="nav.langName">EN</button>
+        <a href="#order-form" class="nav-action-btn order-pill-btn" data-i18n="nav.orderNow">Ø§Ø·Ù„Ø¨ Ø§Ù„Ø¢Ù†</a>
+      </div>
+
+      <!-- Mobile Actions Right Group (< 1024px) -->
+      <div class="nav-actions-mobile">
+        <a href="#order-form" class="nav-action-btn order-pill-btn mobile-order-btn" data-i18n="nav.orderNow">Ø§Ø·Ù„Ø¨ Ø§Ù„Ø¢Ù†</a>
+        <button id="menu-toggle-mobile" class="mobile-menu-btn" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="menu-drawer" class="menu-drawer">
+    <div class="drawer-header">
+      <a href="#hero" class="brand-wordmark">
+        <span class="brand-bold">DLA7A</span>
+        <span class="brand-light">SERVICE</span>
+      </a>
+      <button id="menu-close-mobile" class="btn-icon" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-controls">
+      <button type="button" data-theme-toggle id="theme-toggle-mobile" class="btn btn-secondary btn-sm" style="flex: 1; min-height: 44px;" aria-label="Toggle theme">â˜€ï¸</button>
+      <button id="lang-toggle-mobile" class="btn btn-secondary btn-sm" style="flex: 1; min-height: 44px;" data-i18n="nav.langName">EN</button>
+    </div>
+
+    <nav class="drawer-nav-list">
+      <a href="#services" class="drawer-nav-link" data-i18n="nav.services">Ø®Ø¯Ù…Ø§ØªÙ†Ø§ <span>â†</span></a>
+      <a href="#pricing" class="drawer-nav-link" data-i18n="nav.pricing">Ø§Ù„Ø£Ø³Ø¹Ø§Ø± <span>â†</span></a>
+      <a href="#accounts" class="drawer-nav-link" data-i18n="nav.accounts">Ø§Ù„Ø­Ø³Ø§Ø¨Ø§Øª <span>â†</span></a>
+      <a href="#testimonials" class="drawer-nav-link" data-i18n="nav.reviews">Ø¢Ø±Ø§Ø¡ Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡ <span>â†</span></a>
+      <a href="#contact" class="drawer-nav-link" data-i18n="nav.contact">ØªÙˆØ§ØµÙ„ Ù…Ø¹Ù†Ø§ <span>â†</span></a>
+      <a href="#order-form" class="drawer-nav-link" data-i18n="nav.orderNow">Ø§Ø·Ù„Ø¨ Ø§Ù„Ø¢Ù† <span>â†</span></a>
+    </nav>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <!-- Glow & Grid & Bottom Fade Overlay -->
+      <div class="hero-glow"></div>
+      <div class="hero-grid-overlay"></div>
+      <div class="hero-bottom-fade"></div>
+
+      <!-- Premium hero decorative layers -->
+      <div class="hero-aurora-1"></div>
+      <div class="hero-aurora-2"></div>
+      <div class="hero-grain"></div>
+      <div class="hero-top-line"></div>
+
+      <!-- Scroll indicator -->
+      <div class="hero-scroll-indicator" aria-hidden="true">
+        <div class="scroll-pill"><div class="scroll-pill-dot"></div></div>
+      </div>
+
+
+      <div class="container hero-container">
+        <!-- Text Column -->
+        <div class="hero-text-col">
+          <div class="hero-badge hero-fade-up">
+            <span class="pulse-dot"></span>
+            <span data-i18n="hero.badge">Ø§Ù„Ù…Ù†ØµØ© Ø§Ù„Ø£ÙˆÙ„Ù‰ Ù„Ù„Ø®Ø¯Ù…Ø§Øª Ø§Ù„Ø±Ù‚Ù…ÙŠØ© Ø¨Ø§Ù„Ù…ØºØ±Ø¨</span>
+          </div>
+          
+          <h1 class="hero-headline hero-fade-up">
+            <!-- Rendered by JS -->
+          </h1>
+          
+          <p class="hero-subtitle hero-fade-up" data-i18n="hero.subtitle">
+            Ø¥Ù†Ø³ØªØºØ±Ø§Ù…ØŒ ØªÙŠÙƒ ØªÙˆÙƒØŒ ÙÙŠØ³Ø¨ÙˆÙƒØŒ Ø­Ø³Ø§Ø¨Ø§Øª ÙˆØ´Ø­Ù† Ø£Ù„Ø¹Ø§Ø¨. ØªØ³Ù„ÙŠÙ… Ø³Ø±ÙŠØ¹ ÙˆØ£ÙØ¶Ù„ Ø§Ù„Ø£Ø³Ø¹Ø§Ø±.
+          </p>
+          
+          <div class="hero-actions hero-fade-up">
+            <a href="#order-form" class="btn-hero-order">
+              <span data-i18n="hero.ctaOrder">Ø§Ø·Ù„Ø¨ Ø§Ù„Ø¢Ù†</span>
+              <svg class="arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a id="hero-wa-btn" href="#" target="_blank" rel="noopener" class="btn-hero-wa">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+              </svg>
+              <span data-i18n="hero.ctaWa">Ù…Ø­Ø§Ø¯Ø«Ø© Ø¹Ø¨Ø± ÙˆØ§ØªØ³Ø§Ø¨</span>
+            </a>
+          </div>
+
+          <div class="hero-social-proof" aria-live="polite" aria-atomic="true">
+            <span class="hero-proof-dot" aria-hidden="true"></span>
+            <span class="hero-proof-text"></span>
+          </div>
+
+          <div class="hero-trust-row hero-fade-up">
+            <div class="trust-stat-item">
+              <span class="trust-stat-num ltr-isolate" data-i18n="hero.trust1Val">5,000+</span>
+              <span class="trust-stat-lbl" data-i18n="hero.trust1Lbl">Ø¹Ù…ÙŠÙ„</span>
+            </div>
+            <div class="trust-stat-item">
+              <span class="trust-stat-num ltr-isolate" data-i18n="hero.trust2Val">24/7</span>
+              <span class="trust-stat-lbl" data-i18n="hero.trust2Lbl">Ø¯Ø¹Ù… Ù…ØªÙˆØ§ØµÙ„</span>
+            </div>
+            <div class="trust-stat-item">
+              <span class="trust-stat-num ltr-isolate" data-i18n="hero.trust3Val">ÙÙˆØ±ÙŠ</span>
+              <span class="trust-stat-lbl" data-i18n="hero.trust3Lbl">ØªØ³Ù„ÙŠÙ… Ø³Ø±ÙŠØ¹</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Cards Column -->
+        <div class="hero-visual-col hero-fade-up">
+          <div id="hero-cards-container" class="hero-cards-stack">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo Marquee (Bottom of Hero) -->
+      <div class="hero-marquee-section hero-fade-up">
+        <div class="hero-marquee-track">
+          <span>Instagram &nbsp;Â·&nbsp; TikTok &nbsp;Â·&nbsp; Facebook &nbsp;Â·&nbsp; WhatsApp &nbsp;Â·&nbsp; Netflix &nbsp;Â·&nbsp; Prime Video &nbsp;Â·&nbsp; PlayStation &nbsp;Â·&nbsp; ChatGPT &nbsp;Â·&nbsp; CapCut &nbsp;Â·&nbsp; Canva &nbsp;Â·&nbsp; Free Fire &nbsp;Â·&nbsp; eFootball &nbsp;Â·&nbsp; Instagram &nbsp;Â·&nbsp; TikTok &nbsp;Â·&nbsp; Facebook &nbsp;Â·&nbsp; WhatsApp &nbsp;Â·&nbsp; Netflix &nbsp;Â·&nbsp; Prime Video &nbsp;Â·&nbsp; PlayStation &nbsp;Â·&nbsp; ChatGPT &nbsp;Â·&nbsp; CapCut &nbsp;Â·&nbsp; Canva &nbsp;Â·&nbsp; Free Fire &nbsp;Â·&nbsp; eFootball</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Overview Section -->
+    <section id="services" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="services.badge">Ø®Ø¯Ù…Ø§Øª Ø§Ù„Ù†Ù…Ùˆ ÙˆØ§Ù„ØªÙØ§Ø¹Ù„</div>
+        <h2 class="section-title" data-i18n="services.title">Ø®Ø¯Ù…Ø§ØªÙ†Ø§ Ø§Ù„Ù…ØªÙ†ÙˆØ¹Ø©</h2>
+        <p class="body-text" data-i18n="services.subtitle">Ø­Ù„ÙˆÙ„ Ù…ØªÙƒØ§Ù…Ù„Ø© Ù„ØªÙƒØ¨ÙŠØ± Ø­Ø³Ø§Ø¨Ø§ØªÙƒ ÙˆØ²ÙŠØ§Ø¯Ø© Ø§Ù„ØªÙØ§Ø¹Ù„ ÙˆØ§Ù„Ù…Ø´Ø§Ù‡Ø¯Ø§Øª Ø¹Ù„Ù‰ ÙƒØ¨Ø±Ù‰ Ø§Ù„Ù…Ù†ØµØ§Øª</p>
+
+        <div id="services-grid" class="grid grid-3">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Social Media Pricing Section -->
+    <section id="pricing" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="pricing.badge">Ø¨Ø§Ù‚Ø§Øª ÙˆØ£Ø³Ø¹Ø§Ø± ØªÙØµÙŠÙ„ÙŠØ©</div>
+        <h2 class="section-title" data-i18n="pricing.title">Ø£Ø³Ø¹Ø§Ø± Ø®Ø¯Ù…Ø§Øª ÙˆØ³Ø§Ø¦Ù„ Ø§Ù„ØªÙˆØ§ØµÙ„</h2>
+        <p class="body-text" data-i18n="pricing.subtitle">Ù‚ÙˆØ§Ø¦Ù… Ø£Ø³Ø¹Ø§Ø± Ù…Ø¨Ø§Ø´Ø±Ø© Ù„Ø²ÙŠØ§Ø¯Ø© Ø§Ù„Ù…ØªØ§Ø¨Ø¹ÙŠÙ† ÙˆØ§Ù„ØªÙØ§Ø¹Ù„ Ø¨Ø¬ÙˆØ¯Ø© ÙØ§Ø¦Ù‚Ø© ÙˆØ¶Ù…Ø§Ù† Ø¹Ø¯Ù… Ø§Ù„Ù†Ù‚ØµØ§Ù†</p>
+
+        <!-- Pricing Scrollable Tabs -->
+        <div class="pricing-tabs">
+          <button class="tab-pill active" data-tab="ig" data-i18n="pricing.tabIg">Ø¥Ù†Ø³ØªØºØ±Ø§Ù…</button>
+          <button class="tab-pill" data-tab="tt" data-i18n="pricing.tabTt">ØªÙŠÙƒ ØªÙˆÙƒ</button>
+          <button class="tab-pill" data-tab="fb" data-i18n="pricing.tabFb">ÙÙŠØ³Ø¨ÙˆÙƒ</button>
+        </div>
+
+        <!-- Pricing Rows Container -->
+        <div id="pricing-list-container" class="pricing-list">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Digital Accounts Section -->
+    <section id="accounts" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="accounts.badge">Ø§Ø´ØªØ±Ø§ÙƒØ§Øª Ø£ØµÙ„ÙŠØ© Ù…ÙØ¹Ù„Ø©</div>
+        <h2 class="section-title" data-i18n="accounts.title">Ø§Ù„Ø­Ø³Ø§Ø¨Ø§Øª Ø§Ù„Ø±Ù‚Ù…ÙŠØ© ÙˆØ§Ù„Ø§Ø´ØªØ±Ø§ÙƒØ§Øª</h2>
+        <p class="body-text" data-i18n="accounts.subtitle">Ø§Ø·Ù„Ø¨ Ø­Ø³Ø§Ø¨Ø§Øª Ø±Ø³Ù…ÙŠØ© ÙˆØ¢Ù…Ù†Ø© Ù„Ø£Ø´Ù‡Ø± Ø§Ù„Ù…Ù†ØµØ§Øª Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø¨Ø£Ø³Ø¹Ø§Ø± Ù…Ù…ØªØ§Ø²Ø©</p>
+
+        <div id="accounts-grid" class="grid grid-3">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- WhatsApp Numbers Section -->
+    <section id="whatsapp-sec" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="whatsappSec.badge">Ø£Ø±Ù‚Ø§Ù… Ø®Ø§ØµØ© ÙˆÙ†Ø¸ÙŠÙØ© 100%</div>
+        <h2 class="section-title" data-i18n="whatsappSec.title">Ø®Ø¯Ù…Ø§Øª Ø£Ø±Ù‚Ø§Ù… ÙˆØ§ØªØ³Ø§Ø¨</h2>
+        <p class="body-text" data-i18n="whatsappSec.subtitle">Ø§Ø­ØµÙ„ Ø¹Ù„Ù‰ Ø£Ø±Ù‚Ø§Ù… Ø§ÙØªØ±Ø§Ø¶ÙŠØ© Ù„Ù„ØªÙØ¹ÙŠÙ„ ÙˆØ§Ù„Ù…Ø±Ø§Ø³Ù„Ø§Øª Ø¨ÙƒÙ„ Ø£Ù…Ø§Ù†</p>
+
+        <div id="whatsapp-grid" class="grid grid-2">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Game Top-Up Section -->
+    <section id="gaming" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="gaming.badge">Ø´Ø­Ù† Ø¨Ø§Ù„Ù€ ID Ø§Ù„Ø±Ø³Ù…ÙŠ</div>
+        <h2 class="section-title" data-i18n="gaming.title">Ø´Ø­Ù† Ø§Ù„Ø£Ù„Ø¹Ø§Ø¨ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠØ©</h2>
+        <p class="body-text" data-i18n="gaming.subtitle">Ø´Ø­Ù† Ø³Ø±ÙŠØ¹ ÙˆØ¢Ù…Ù† Ù„Ø£Ø´Ù‡Ø± Ø§Ù„Ø£Ù„Ø¹Ø§Ø¨ Ø¨Ø£Ø³Ø¹Ø§Ø± ØªÙ†Ø§ÙØ³ÙŠØ© ÙÙŠ Ø§Ù„Ù…ØºØ±Ø¨</p>
+
+        <div id="gaming-grid" class="grid grid-3">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="whyUs.badge">Ø«Ù‚Ø© ÙˆØ§Ø­ØªØ±Ø§ÙÙŠØ©</div>
+        <h2 class="section-title" data-i18n="whyUs.title">Ù„Ù…Ø§Ø°Ø§ ØªØ®ØªØ§Ø± DLA7A SERVICEØŸ</h2>
+        <p class="body-text" data-i18n="whyUs.subtitle">Ù†Ù‚Ø¯Ù… Ø£ÙØ¶Ù„ Ø§Ù„Ø®Ø¯Ù…Ø§Øª Ø§Ù„Ø±Ù‚Ù…ÙŠØ© Ø¨Ø£Ø¹Ù„Ù‰ Ù…Ø¹Ø§ÙŠÙŠØ± Ø§Ù„Ø¬ÙˆØ¯Ø© ÙˆØ§Ù„Ø³Ø±Ø¹Ø© Ø¨Ø§Ù„Ù…ØºØ±Ø¨</p>
+
+        <div id="why-grid" class="grid grid-3">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="stats" class="section">
+      <div class="container flex-col">
+        <h2 class="section-title" data-i18n="stats.title">DLA7A SERVICE ÙÙŠ Ø£Ø±Ù‚Ø§Ù…</h2>
+        <p class="body-text" data-i18n="stats.subtitle">Ø¥Ù†Ø¬Ø§Ø²Ø§Øª Ø­Ù‚ÙŠÙ‚ÙŠØ© ØªØ¹ÙƒØ³ Ø«Ù‚Ø© Ø¢Ù„Ø§Ù Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡ Ø¨Ø§Ù„Ù…ØºØ±Ø¨ ÙˆØ§Ù„ÙˆØ·Ù† Ø§Ù„Ø¹Ø±Ø¨ÙŠ</p>
+
+        <div id="stats-grid" class="grid grid-4">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="testimonials.badge">Ø¢Ø±Ø§Ø¡ Ø¹Ù…Ù„Ø§Ø¦Ù†Ø§</div>
+        <h2 class="section-title" data-i18n="testimonials.title">Ù…Ø§Ø°Ø§ ÙŠÙ‚ÙˆÙ„ Ø²Ø¨Ø§Ø¦Ù†Ù†Ø§ØŸ</h2>
+        <p class="body-text" data-i18n="testimonials.subtitle">ØªØ¬Ø§Ø±Ø¨ Ø­Ù‚ÙŠÙ‚ÙŠØ© ÙˆØªÙ‚ÙŠÙŠÙ…Ø§Øª Ø²Ø¨Ø§Ø¦Ù†Ù†Ø§ Ø§Ù„ÙƒØ±Ø§Ù… Ø¨Ø¹Ø¯ Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø®Ø¯Ù…Ø§ØªÙ†Ø§ Ø¨Ø§Ù„Ù…ØºØ±Ø¨</p>
+
+        <div id="testimonials-grid" class="grid grid-3">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Direct Order Form Section -->
+    <section id="order-form" class="section">
+      <div class="container flex-col">
+        <div class="card" style="padding: 24px;">
+          <div class="badge" data-i18n="orderForm.badge">Ø·Ù„Ø¨ ÙÙˆØ±ÙŠ ÙˆÙ…Ø¨Ø§Ø´Ø±</div>
+          <h2 class="section-title" data-i18n="orderForm.title">Ø§Ø·Ù„Ø¨ Ø®Ø¯Ù…ØªÙƒ Ø§Ù„Ø¢Ù†</h2>
+          <p class="body-text" data-i18n="orderForm.subtitle">Ø§Ù…Ù„Ø£ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ÙˆØ³ÙŠØªÙ… ØªØ­ÙˆÙŠÙ„Ùƒ Ù…Ø¨Ø§Ø´Ø±Ø© Ø¥Ù„Ù‰ Ù…Ø­Ø§Ø¯Ø«Ø© ÙˆØ§ØªØ³Ø§Ø¨ Ù„Ø¥ØªÙ…Ø§Ù… Ø§Ù„Ø·Ù„Ø¨ Ø¨Ø³Ø±Ø¹Ø© ÙˆØ£Ù…Ø§Ù†</p>
+
+          <form id="whatsapp-order-form" class="flex-col" style="margin-block-start: 12px;">
+            <div class="form-group">
+              <label for="user-name" class="form-label" data-i18n="orderForm.nameLabel">Ø§Ù„Ø§Ø³Ù… Ø§Ù„ÙƒØ§Ù…Ù„</label>
+              <input type="text" id="user-name" class="form-input" placeholder="Ù…Ø«Ø§Ù„: ÙŠÙˆØ³Ù Ø§Ù„Ø¥Ø¯Ø±ÙŠØ³ÙŠ" required>
+            </div>
+
+            <div class="form-group">
+              <label for="user-phone" class="form-label" data-i18n="orderForm.phoneLabel">Ø±Ù‚Ù… Ø§Ù„ÙˆØ§ØªØ³Ø§Ø¨ / Ø§Ù„Ù‡Ø§ØªÙ</label>
+              <input type="tel" id="user-phone" class="form-input" inputmode="tel" placeholder="06XXXXXXXX Ø£Ùˆ 07XXXXXXXX" required>
+            </div>
+
+            <div class="form-group">
+              <label for="user-service" class="form-label" data-i18n="orderForm.serviceLabel">Ø§Ù„Ø®Ø¯Ù…Ø© Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø©</label>
+              <select id="user-service" class="form-select" required>
+                <!-- Populated dynamically by app.js -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="user-notes" class="form-label" data-i18n="orderForm.notesLabel">Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø¥Ø¶Ø§ÙÙŠØ© (Ø±Ø§Ø¨Ø· Ø§Ù„Ø­Ø³Ø§Ø¨ / Player ID / Ø§Ù„ÙƒÙ…ÙŠØ©)</label>
+              <textarea id="user-notes" class="form-textarea" placeholder="Ø¶Ø¹ Ø±Ø§Ø¨Ø· Ø­Ø³Ø§Ø¨ÙƒØŒ Ø£ÙŠØ¯ÙŠ ÙØ±ÙŠ ÙØ§ÙŠØ±ØŒ Ø£Ùˆ ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø·Ù„Ø¨ Ù‡Ù†Ø§..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-i18n="orderForm.submitBtn">Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨ Ø¹Ø¨Ø± ÙˆØ§ØªØ³Ø§Ø¨ ðŸ’¬</button>
+            <p class="micro-text" style="text-align: center;" data-i18n="orderForm.safeNote">ðŸ”’ Ø·Ù„Ø¨ Ø¢Ù…Ù† ÙˆÙ…Ø¨Ø§Ø´Ø± Ù…Ø¹ Ø§Ù„Ù…Ø´Ø±Ù Ø§Ù„ÙÙ†ÙŠ Ø¹Ù„Ù‰ ÙˆØ§ØªØ³Ø§Ø¨</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Social Section -->
+    <section id="contact" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="contact.badge">ØªÙˆØ§ØµÙ„ Ù…Ø¨Ø§Ø´Ø±</div>
+        <h2 class="section-title" data-i18n="contact.title">ØªÙˆØ§ØµÙ„ Ù…Ø¹ ÙØ±ÙŠÙ‚ Ø§Ù„Ø¯Ø¹Ù…</h2>
+        <p class="body-text" data-i18n="contact.subtitle">Ù…ØªÙˆØ§Ø¬Ø¯ÙˆÙ† Ø¹Ù„Ù‰ Ù…Ø¯Ø§Ø± Ø§Ù„Ø³Ø§Ø¹Ø© 24/7 Ù„Ù„Ø±Ø¯ Ø¹Ù„Ù‰ Ø¬Ù…ÙŠØ¹ Ø§Ø³ØªÙØ³Ø§Ø±Ø§ØªÙƒ ÙˆØªÙ„Ø¨ÙŠØ© Ø·Ù„Ø¨Ø§ØªÙƒ</p>
+
+        <div class="grid grid-2">
+          <!-- Instagram Card -->
+          <div class="card">
+            <!-- Official Instagram SVG Icon -->
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                <radialGradient id="ig-grad" cx="30%" cy="107%" r="138%">
+                  <stop offset="0%" stop-color="#fdf497"/>
+                  <stop offset="5%" stop-color="#fdf497"/>
+                  <stop offset="45%" stop-color="#fd5949"/>
+                  <stop offset="60%" stop-color="#d6249f"/>
+                  <stop offset="90%" stop-color="#285AEB"/>
+                </radialGradient>
+                <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig-grad)"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="#FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#FFF" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div>
+                <h3 class="card-title" data-i18n="contact.igTitle">Ø¥Ù†Ø³ØªØºØ±Ø§Ù… Instagram</h3>
+                <span class="micro-text ltr-isolate" id="ig-handle-text">@dlaaa7a1</span>
+              </div>
+            </div>
+            <p class="body-text" data-i18n="contact.igDesc">ØªØ§Ø¨Ø¹ Ø¹Ø±ÙˆØ¶Ù†Ø§ Ø§Ù„ÙŠÙˆÙ…ÙŠØ© Ø§Ù„Ø­ØµØ±ÙŠØ©ØŒ Ø¥Ø«Ø¨Ø§ØªØ§Øª Ø§Ù„ØªØ³Ù„ÙŠÙ… Ù„Ù„Ø²Ø¨Ø§Ø¦Ù†ØŒ ÙˆÙ…Ø³Ø§Ø¨Ù‚Ø§Øª Ø§Ù„Ø´Ø­Ù†.</p>
+            <a id="ig-link-btn" href="#" target="_blank" rel="noopener" class="btn btn-secondary" data-i18n="contact.igBtn">Ù…ØªØ§Ø¨Ø¹Ø© Ø¹Ù„Ù‰ Ø¥Ù†Ø³ØªØºØ±Ø§Ù…</a>
+          </div>
+
+          <!-- WhatsApp Card -->
+          <div class="card">
+            <!-- Official WhatsApp SVG Icon -->
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="#25D366">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+              </svg>
+              <div>
+                <h3 class="card-title" data-i18n="contact.waTitle">ÙˆØ§ØªØ³Ø§Ø¨ WhatsApp</h3>
+                <span class="micro-text ltr-isolate" id="wa-display-text">+212 781-385545</span>
+              </div>
+            </div>
+            <p class="body-text" data-i18n="contact.waDesc">Ù…Ø­Ø§Ø¯Ø«Ø© ÙÙˆØ±ÙŠØ© Ù…Ø¹ Ø§Ù„Ù…Ø´Ø±Ù Ø§Ù„ÙÙ†ÙŠ Ù„Ø§Ø³ØªÙ‚Ø¨Ø§Ù„ Ø·Ù„Ø¨Ø§ØªÙƒÙ… ÙˆØ·Ø±Ù‚ Ø§Ù„Ø¯ÙØ¹ Ø§Ù„Ù…ØºØ±Ø¨ÙŠØ©.</p>
+            <a id="wa-link-btn" href="#" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="contact.waBtn">ØªÙˆØ§ØµÙ„ Ø§Ù„Ø¢Ù† Ø¹Ø¨Ø± ÙˆØ§ØªØ³Ø§Ø¨</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container flex-col">
+      <div class="grid grid-2">
+        <div class="flex-col" style="gap: 12px;">
+          <a href="#hero" class="brand-wordmark">
+            <span class="brand-bold">DLA7A</span>
+            <span class="brand-light">SERVICE</span>
+          </a>
+          <p class="micro-text" data-i18n="footer.desc">Ù†Ù‚Ø¯Ù… Ø£ÙØ¶Ù„ Ø®Ø¯Ù…Ø§Øª Ø§Ù„ØªÙˆØ§ØµÙ„ Ø§Ù„Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠ ÙˆØ§Ù„Ø­Ø³Ø§Ø¨Ø§Øª Ø§Ù„Ø±Ù‚Ù…ÙŠØ© ÙÙŠ Ø§Ù„Ù…ØºØ±Ø¨ ÙˆØ§Ù„ÙˆØ·Ù† Ø§Ù„Ø¹Ø±Ø¨ÙŠ Ø¨Ø£Ø¹Ù„Ù‰ Ù…Ø¹Ø§ÙŠÙŠØ± Ø§Ù„Ø£Ù…Ø§Ù† ÙˆØ§Ù„Ø³Ø±Ø¹Ø©.</p>
+          
+          <div>
+            <span class="form-label" data-i18n="footer.paymentsTitle">Ø·Ø±Ù‚ Ø§Ù„Ø¯ÙØ¹ Ø§Ù„Ù…ØºØ±Ø¨ÙŠØ© Ø§Ù„Ù…ØªØ§Ø­Ø©:</span>
+            <div id="payment-chips" class="payment-chips">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-col" style="gap: 12px;">
+          <span class="form-label" data-i18n="footer.linksTitle">Ø±ÙˆØ§Ø¨Ø· Ø³Ø±ÙŠØ¹Ø©</span>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="#hero" class="micro-text" data-i18n="nav.home">Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</a>
+            <a href="#services" class="micro-text" data-i18n="nav.services">Ø®Ø¯Ù…Ø§ØªÙ†Ø§</a>
+            <a href="#pricing" class="micro-text" data-i18n="nav.pricing">Ø§Ù„Ø£Ø³Ø¹Ø§Ø±</a>
+            <a href="#accounts" class="micro-text" data-i18n="nav.accounts">Ø§Ù„Ø­Ø³Ø§Ø¨Ø§Øª</a>
+            <a href="#whatsapp-sec" class="micro-text" data-i18n="nav.whatsapp">ÙˆØ§ØªØ³Ø§Ø¨</a>
+            <a href="#gaming" class="micro-text" data-i18n="nav.gaming">Ø£Ù„Ø¹Ø§Ø¨</a>
+            <a href="#order-form" class="micro-text" data-i18n="nav.orderNow">Ø§Ø·Ù„Ø¨ Ø§Ù„Ø¢Ù†</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-block-start: 1px solid var(--border-color); padding-block-start: 20px; text-align: center;">
+        <p class="micro-text" data-i18n="footer.copyright">Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ù‚ÙˆÙ‚ Ù…Ø­ÙÙˆØ¸Ø© Â© DLA7A SERVICE</p>
+        <p class="micro-text" style="opacity: 0.8; margin-block-start: 4px;" data-i18n="footer.tagline">ØµÙÙ…Ù… Ø¨Ø£Ø¹Ù„Ù‰ Ù…Ø¹Ø§ÙŠÙŠØ± Ø§Ù„Ø³Ø±Ø¹Ø© ÙˆØ§Ù„Ø£Ù…Ø§Ù† Ø¨Ø§Ù„Ù…ØºØ±Ø¨ ðŸ‡²ðŸ‡¦</p>
+        <span class="version-tag" style="font-size: 11px; opacity: 0.6; display: inline-block; margin-block-start: 6px; padding: 2px 6px; background: rgba(255,255,255,0.1); border-radius: 4px; font-weight: 700;">v3</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Action Button: WhatsApp 56px White Circle with Green Icon -->
+  <a id="floating-whatsapp" href="#" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Contact on WhatsApp">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="#25D366">
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+    </svg>
+  </a>
+
+  <script src="translations.js?v=4"></script>
+  <script src="app.js?v=4"></script>
+</body>
+</html>
