@@ -1153,7 +1153,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const hHtml = item.handle ? `<span class="creator-handle" dir="ltr">${esc(item.handle)}</span>` : '';
       const link = item.url ? `<a href="${encodeURI(item.url)}" target="_blank" rel="noopener" class="creator-card-link" aria-label="${esc(item.name)}" style="position:absolute;inset:0;z-index:3;"></a>` : '';
       return `<li class="creator-card">
-        <img src="${encodeURI(item.photo)}" alt="${esc(item.name)}" loading="lazy" decoding="async" width="280" height="350">
+        <img src="${encodeURI(item.photo)}" alt="${esc(item.name)}" loading="lazy" decoding="async" draggable="false" width="280" height="350">
         <span class="creator-platform" aria-hidden="true">${icon}</span>
         <div class="creator-info">
           <span class="creator-name">${esc(item.name)}</span>
@@ -1176,15 +1176,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const dots = document.querySelector('.creators-dots');
+    const cards = [...listEl.querySelectorAll('.creator-card')];
+    const activeIndex = () => {
+      const rtl = getComputedStyle(listEl).direction === 'rtl';
+      const r = listEl.getBoundingClientRect();
+      const edge = rtl ? r.right - parseFloat(getComputedStyle(listEl).paddingRight) : r.left + parseFloat(getComputedStyle(listEl).paddingLeft);
+      return cards.reduce((best, card, i) => {
+        const cr = card.getBoundingClientRect();
+        const distance = Math.abs((rtl ? cr.right : cr.left) - edge);
+        return distance < best.distance ? { index: i, distance } : best;
+      }, { index: 0, distance: Infinity }).index;
+    };
+    const updatePosition = () => {
+      const index = activeIndex();
+      const counter = dots && dots.querySelector('.creators-counter-value');
+      if (counter) counter.textContent = `${index + 1} / ${cards.length}`;
+      else if (dots) dots.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === index));
+    };
+    listEl._updateCreatorPosition = updatePosition;
     if (dots) {
-      dots.innerHTML = items.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}"></span>`).join('');
-      listEl.onscroll = () => {
-        const card = listEl.querySelector('.creator-card');
-        const w = card ? card.offsetWidth + 12 : 1;
-        const idx = Math.min(items.length - 1, Math.max(0, Math.round(Math.abs(listEl.scrollLeft) / w)));
-        dots.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-      };
+      if (items.length > 7) {
+        dots.classList.add('creators-counter');
+        dots.innerHTML = `<button type="button" class="creators-carousel-arrow" data-step="-1" aria-label="${currentLang === 'ar' ? 'السابق' : 'Previous'}">‹</button><span class="creators-counter-value" dir="ltr">1 / ${items.length}</span><button type="button" class="creators-carousel-arrow" data-step="1" aria-label="${currentLang === 'ar' ? 'التالي' : 'Next'}">›</button>`;
+        dots.querySelectorAll('.creators-carousel-arrow').forEach(button => button.addEventListener('click', () => {
+          const index = activeIndex();
+          const target = cards[Math.max(0, Math.min(cards.length - 1, index + Number(button.dataset.step)))];
+          if (target) {
+            const currentRect = cards[index].getBoundingClientRect(), targetRect = target.getBoundingClientRect();
+            listEl.scrollBy({ left: getComputedStyle(listEl).direction === 'rtl' ? targetRect.right - currentRect.right : targetRect.left - currentRect.left, behavior: 'smooth' });
+          }
+        }));
+      } else {
+        dots.classList.remove('creators-counter');
+        dots.innerHTML = items.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}"></span>`).join('');
+      }
     }
+    if (!listEl._creatorScrollBound) {
+      listEl.addEventListener('scroll', () => {
+        if (!listEl._creatorScrollFrame) listEl._creatorScrollFrame = requestAnimationFrame(() => {
+          listEl._creatorScrollFrame = 0;
+          if (listEl._updateCreatorPosition) listEl._updateCreatorPosition();
+        });
+      }, { passive: true });
+      listEl._creatorScrollBound = true;
+    }
+    if (dots) requestAnimationFrame(updatePosition);
   }
 
   // Initial Boot

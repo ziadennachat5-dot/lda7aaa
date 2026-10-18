@@ -2041,14 +2041,19 @@ html.reveal-done .hero-proof-text {
 /* ===== CREATORS ===== */
 #creators .creators-list {
   display: flex;
+  flex-wrap: nowrap;
   align-items: flex-start;
   gap: 12px;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   touch-action: pan-x pan-y;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
   padding-inline: 20px;
+  scroll-padding-inline: 20px;
+  max-width: 100%;
   list-style: none;
   margin: 0;
 }
@@ -2057,6 +2062,7 @@ html.reveal-done .hero-proof-text {
 }
 .creator-card {
   flex: 0 0 72%;
+  min-width: 0;
   scroll-snap-align: start;
   position: relative;
   aspect-ratio: 4/5;
@@ -2068,6 +2074,9 @@ html.reveal-done .hero-proof-text {
 .creator-card img {
   width: 100%;
   height: 100%;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
   object-fit: cover;
   filter: grayscale(1);
   transition: filter 300ms;
@@ -2152,6 +2161,7 @@ html.reveal-done .hero-proof-text {
   align-items: center;
   justify-content: center;
   z-index: 2;
+  pointer-events: none;
 }
 .creator-platform svg, .creator-platform img {
   width: 18px;
@@ -2165,17 +2175,21 @@ select option:disabled, select option[value=""] { color: var(--muted); }
 .form-select { height: 52px; font-size: 16px; padding-inline-end: 42px; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: right 17px top 50%, right 12px top 50%; background-repeat: no-repeat; background-size: 5px 5px; }
 .form-select { color: var(--text); background-color: var(--surface); border-color: var(--border); }
 :dir(rtl) .form-select { background-position: left 17px top 50%, left 12px top 50%; }
-.creator-card--wide { aspect-ratio: auto; display: flex; flex-direction: column; background: var(--surface, #fff); border: 1px solid var(--border); }
+.creator-card--wide { flex: 0 0 88%; min-width: 0; aspect-ratio: auto; display: flex; flex-direction: column; background: var(--surface, #fff); border: 1px solid var(--border); }
 .creator-card--wide img { width: 100%; height: auto; aspect-ratio: unset; object-fit: contain; filter: none; background: #0b0f14; }
 .creator-card--wide::after { display: none; }
 .creator-card--wide .creator-info { position: static; inset: auto; padding: 14px 16px; color: var(--text); }
 .creator-card--wide .creator-name { font-size: 18px; font-weight: 700; }
 .creator-card--wide .creator-handle { font-size: 14px; color: var(--muted); direction: ltr; }
 .creator-card--wide .creator-followers { border: 1px solid var(--border); background: transparent; backdrop-filter: none; }
-@media (max-width: 1023px) { .creator-card--wide { flex-basis: 88%; } }
+@media (max-width: 1023px) { #creators .creators-list { width: 100%; } }
 @media (min-width: 1024px) {
   #creators .creators-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; padding-inline: 24px; }
   .creator-card { flex: initial; }
   .creator-card--wide { grid-column: span 2; }
   #creators .creators-dots { display: none; }
 }
+.creators-dots.creators-counter { align-items: center; gap: 12px; }
+.creators-counter-value { min-width: 56px; text-align: center; font-size: 14px; }
+.creators-carousel-arrow { width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--text); font: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
+:dir(rtl) .creators-carousel-arrow { transform: scaleX(-1); }
