@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" id="meta-theme-color" content="#FFFFFF">
+  <link rel="icon" href="/favicon.ico">
   <title data-i18n="meta.title">DLA7A SERVICE | منصة خدمات التواصل الاجتماعي والحسابات الرقمية بالمغرب</title>
   <meta name="description" data-i18n="meta.description" content="نوفر خدمات احترافية لإنستغرام، تيك توك، فيسبوك، حسابات رقمية رسمية Netflix و ChatGPT، أرقام واتساب وشحن ألعاب Free Fire و PES في المغرب.">
   
@@ -276,8 +277,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=12">
-  <link rel="stylesheet" href="hero-premium.css?v=12">
+  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="hero-premium.css?v=14">
 </head>
 <body>
 
@@ -592,6 +593,21 @@
         </div>
       </div>
     </section>
+    <!-- Creators Section -->
+    <section id="creators" class="section">
+      <div class="container flex-col">
+        <div class="badge" data-i18n="creators.badge"></div>
+        <h2 class="section-title" data-i18n="creators.title"></h2>
+        <p class="body-text" data-i18n="creators.subtitle"></p>
+        <ul id="creators-list" class="creators-list"></ul>
+        <div class="creators-dots" aria-label="Creators carousel dots"></div>
+        <button class="btn btn-primary creators-view-more" data-i18n="creators.viewMore"></button>
+        <div class="creators-cta">
+          <p class="cta-title" data-i18n="creators.ctaTitle"></p>
+          <a href="#" class="btn btn-primary creators-cta-btn" data-i18n="creators.ctaBtn"></a>
+        </div>
+      </div>
+    </section>
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="section">
@@ -615,6 +631,7 @@
           <p class="body-text" data-i18n="orderForm.subtitle">املأ البيانات وسيتم تحويلك مباشرة إلى محادثة واتساب لإتمام الطلب بسرعة وأمان</p>
 
           <form id="whatsapp-order-form" class="flex-col" style="margin-block-start: 12px;">
+            <div style="display:none;" aria-hidden="true"><input type="text" id="order-hp" name="website" tabindex="-1" autocomplete="off"></div>
             <div class="form-group">
               <label for="user-name" class="form-label" data-i18n="orderForm.nameLabel">الاسم الكامل</label>
               <input type="text" id="user-name" class="form-input" data-i18n-placeholder="orderForm.namePlaceholder" required>
@@ -639,6 +656,7 @@
 
             <button type="submit" class="btn btn-primary" data-i18n="orderForm.submitBtn">إرسال الطلب عبر واتساب 💬</button>
             <p class="micro-text" style="text-align: center;" data-i18n="orderForm.safeNote">🔒 طلب آمن ومباشر مع المشرف الفني على واتساب</p>
+            <p class="micro-text" style="text-align: center; opacity: 0.75; margin-block-start: 4px;" data-i18n="orderForm.privacyNote">تُستخدم بياناتك فقط لمعالجة طلبك.</p>
           </form>
         </div>
       </div>
@@ -733,7 +751,7 @@
         <div style="border-block-start: 1px solid var(--border-color); padding-block-start: 20px; text-align: center;">
           <p class="micro-text" data-i18n="footer.copyright">جميع الحقوق محفوظة © DLA7A SERVICE</p>
           <p class="micro-text" style="opacity: 0.8; margin-block-start: 4px;" data-i18n="footer.tagline">صُمم بأعلى معايير السرعة والأمان بالمغرب 🇲🇦</p>
-          <span class="version-tag" style="font-size: 11px; opacity: 0.6; display: inline-block; margin-block-start: 6px; padding: 2px 6px; background: rgba(255,255,255,0.1); border-radius: 4px; font-weight: 700;">v12</span>
+          <span class="version-tag" style="font-size: 11px; opacity: 0.6; display: inline-block; margin-block-start: 6px; padding: 2px 6px; background: rgba(255,255,255,0.1); border-radius: 4px; font-weight: 700;">v14</span>
         </div>
       </div>
     </footer>
@@ -760,9 +778,12 @@
     <span class="unban-lightbox-counter" id="unban-lightbox-counter"></span>
   </div>
 
-  <script src="unban-gallery.js?v=12" charset="utf-8"></script>
-  <script src="app.js?v=12" charset="utf-8"></script>
-  <script src="translations.js?v=12" charset="utf-8"></script>
-  <script src="hero-premium.js?v=12" charset="utf-8"></script>
+  <script src="translations.js?v=14" charset="utf-8"></script>
+  <script src="unban-gallery.js?v=14" charset="utf-8"></script>
+  <script src="influencers.js?v=14" charset="utf-8"></script>
+  <script src="hero-premium.js?v=14" charset="utf-8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="config.js?v=14" charset="utf-8"></script>
+  <script src="app.js?v=14" charset="utf-8"></script>
   </body>
 </html>

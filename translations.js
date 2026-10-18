@@ -36,6 +36,7 @@ const TRANSLATIONS = {
       whyUs: "لماذا نحن",
       stats: "إحصائياتنا",
       testimonials: "آراء",
+      creators: "المؤثرون",
       closeMenu: "إغلاق القائمة",
       openMenu: "فتح القائمة",
       themeLight: "الوضع الفاتح ☀️",
@@ -274,6 +275,7 @@ const TRANSLATIONS = {
       notesPlaceholder: "ضع رابط حسابك، أيدي فري فاير، أو تفاصيل الطلب هنا...",
       submitBtn: "إرسال الطلب عبر واتساب 💬",
       safeNote: "🔒 طلب آمن ومباشر مع المشرف الفني على واتساب",
+      privacyNote: "تُستخدم بياناتك فقط لمعالجة طلبك.",
       errName: "يرجى كتابة اسمك الكامل للمتابعة.",
       errPhone: "يرجى كتابة رقم الهاتف / الواتساب الصحيح."
     },
@@ -321,6 +323,18 @@ const TRANSLATIONS = {
         { num: "02", title: "نراجع حالتك ونخبرك إن كان بإمكاننا المساعدة" },
         { num: "03", title: "نعمل على الاسترجاع ونوافيك بالمستجدات" }
       ]
+    },
+    creators: {
+      badge: "التعاونات",
+      title: "المؤثرون الذين تعاونا معهم",
+      subtitle: "نفتخر بالتعاون مع صناع محتوى وشخصيات معروفة في المغرب والعالم العربي.",
+      altText: "صورة {name} على {platform}",
+      openLabel: "فتح ملف {name} على {platform}",
+      followersLabel: "متابع",
+      viewMore: "عرض المزيد",
+      viewLess: "عرض أقل",
+      ctaTitle: "هل أنت صانع محتوى؟ لنتعاون معاً.",
+      ctaBtn: "تواصل معنا عبر واتساب"
     }
   },
   en: {
@@ -350,6 +364,7 @@ const TRANSLATIONS = {
       openMenu: "Open menu",
       themeLight: "Light Mode ☀️",
       themeDark: "Dark Mode 🌙",
+      creators: "Creators",
       langName: "AR"
     },
     hero: {
@@ -584,6 +599,7 @@ const TRANSLATIONS = {
       notesPlaceholder: "Paste your account link, Free Fire ID, or package request here...",
       submitBtn: "Send Order via WhatsApp 💬",
       safeNote: "🔒 Safe direct order with support team on WhatsApp",
+      privacyNote: "Your details are used only to process your order.",
       errName: "Please enter your full name to proceed.",
       errPhone: "Please enter a valid phone or WhatsApp number."
     },
@@ -631,6 +647,18 @@ const TRANSLATIONS = {
         { num: "02", title: "We review the case and tell you if we can help" },
         { num: "03", title: "We work on recovery and keep you updated" }
       ]
+    },
+    creators: {
+      badge: "Collaborations",
+      title: "Creators We Work With",
+      subtitle: "We are proud to collaborate with creators and public figures across Morocco and the Arab world.",
+      altText: "Photo of {name} on {platform}",
+      openLabel: "Open {name} on {platform}",
+      followersLabel: "followers",
+      viewMore: "View more",
+      viewLess: "View less",
+      ctaTitle: "Are you a creator? Let's work together.",
+      ctaBtn: "Contact us on WhatsApp"
     }
   }
 };
@@ -667,25 +695,25 @@ const PRICING_PACKAGES = {
 };
 
 const SELECTABLE_SERVICES = [
-  "إنستغرام - متابعين حقيقيين (Instagram Followers)",
-  "إنستغرام - إعجابات ولايكات (Instagram Likes)",
-  "إنستغرام - مشاهدات ريلز وستوري (Reels & Story Views)",
-  "تيك توك - متابعين لفتح البث المباشر (TikTok Live Followers)",
-  "تيك توك - إعجابات ومشاهدات إكسبلور (TikTok Likes & Views)",
-  "فيسبوك - متابعين صفحات وتفاعل (Facebook Page Followers)",
-  "فيسبوك - مشاهدات فيديو وساعات الربح (FB Watch Time)",
-  "حساب Netflix 4K رسمي",
-  "حساب Amazon Prime Video",
-  "حساب Digital PSN / ألعاب بلايستيشن",
-  "حساب ChatGPT Plus (GPT-4o)",
-  "حساب CapCut Pro VIP",
-  "حساب Perplexity Pro",
-  "اشتراك Canva Pro أو Adobe CC",
-  "رقم واتساب أمريكي (+1 USA)",
-  "رقم واتساب دولي (UK / EU)",
-  "شحن جواهر فري فاير (Free Fire Diamonds)",
-  "شحن كوينز إي فوتبول (eFootball PES Coins)",
-  "شحن عملات تيك توك (TikTok Coins)",
-  "Instagram Unban / فك حظر إنستغرام",
-  "طلب خدمة مخصصة أخرى (Custom Request)"
+  { category: "social", ar: "متابعون إنستغرام", en: "Instagram Followers" },
+  { category: "social", ar: "إعجابات إنستغرام", en: "Instagram Likes" },
+  { category: "social", ar: "مشاهدات ريلز وستوري", en: "Reels & Story Views" },
+  { category: "social", ar: "متابعو تيك توك للبث المباشر", en: "TikTok Live Followers" },
+  { category: "social", ar: "إعجابات ومشاهدات تيك توك", en: "TikTok Likes & Views" },
+  { category: "social", ar: "متابعو صفحات فيسبوك", en: "Facebook Page Followers" },
+  { category: "social", ar: "مشاهدات فيديو وساعات فيسبوك", en: "Facebook Watch Time" },
+  { category: "accounts", ar: "حساب Netflix 4K رسمي", en: "Official Netflix 4K Account" },
+  { category: "accounts", ar: "حساب Amazon Prime Video", en: "Amazon Prime Video Account" },
+  { category: "accounts", ar: "حساب ألعاب PlayStation رقمي", en: "Digital PSN / PlayStation Games" },
+  { category: "accounts", ar: "حساب ChatGPT Plus (GPT-4o)", en: "ChatGPT Plus (GPT-4o) Account" },
+  { category: "accounts", ar: "حساب CapCut Pro VIP", en: "CapCut Pro VIP Account" },
+  { category: "accounts", ar: "حساب Perplexity Pro", en: "Perplexity Pro Account" },
+  { category: "accounts", ar: "اشتراك Canva Pro أو Adobe CC", en: "Canva Pro or Adobe CC Subscription" },
+  { category: "whatsapp", ar: "رقم واتساب أمريكي (+1)", en: "US WhatsApp Number (+1)" },
+  { category: "whatsapp", ar: "رقم واتساب دولي (UK / EU)", en: "International WhatsApp Number (UK / EU)" },
+  { category: "games", ar: "شحن جواهر فري فاير", en: "Free Fire Diamonds" },
+  { category: "games", ar: "شحن كوينز إي فوتبول", en: "eFootball Coins" },
+  { category: "games", ar: "شحن عملات تيك توك", en: "TikTok Coins" },
+  { category: "unban", ar: "فك حظر إنستغرام", en: "Instagram Unban" },
+  { category: "social", ar: "طلب خدمة مخصصة أخرى", en: "Custom Service Request" }
 ];

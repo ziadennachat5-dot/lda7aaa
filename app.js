@@ -145,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderWhyUs();
     renderStats();
     renderTestimonials();
+    renderCreators();
     renderPaymentChips();
     renderUnbanSection();
     initUnbanLightbox();
@@ -216,20 +217,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // Render Select Options for Order Form
   function renderSelectOptions() {
     if (!userServiceSelect) return;
+    const selectedIndex = userServiceSelect.selectedOptions[0]?.dataset.serviceIndex;
     userServiceSelect.innerHTML = '';
     
     const defaultOpt = document.createElement('option');
     defaultOpt.value = '';
     defaultOpt.textContent = TRANSLATIONS[currentLang].orderForm.selectPlaceholder;
     defaultOpt.disabled = true;
-    defaultOpt.selected = true;
+    defaultOpt.selected = selectedIndex === undefined;
     userServiceSelect.appendChild(defaultOpt);
 
-    SELECTABLE_SERVICES.forEach(service => {
+    const groups = { social: 'Social media', accounts: 'Digital accounts', whatsapp: 'WhatsApp numbers', games: 'Game top-up', unban: 'Instagram Unban' };
+    const groupsAr = { social: 'وسائل التواصل الاجتماعي', accounts: 'الحسابات الرقمية', whatsapp: 'أرقام واتساب', games: 'شحن الألعاب', unban: 'فك حظر إنستغرام' };
+    const optgroups = {};
+    SELECTABLE_SERVICES.forEach((service, index) => {
+      const key = service.category;
+      if (!optgroups[key]) {
+        optgroups[key] = document.createElement('optgroup');
+        optgroups[key].label = (currentLang === 'ar' ? groupsAr : groups)[key];
+        userServiceSelect.appendChild(optgroups[key]);
+      }
       const opt = document.createElement('option');
-      opt.value = service;
-      opt.textContent = service;
-      userServiceSelect.appendChild(opt);
+      opt.value = service[currentLang];
+      opt.textContent = service[currentLang];
+      opt.dataset.serviceIndex = index;
+      opt.selected = String(index) === selectedIndex;
+      optgroups[key].appendChild(opt);
     });
   }
 
@@ -852,9 +865,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Event Listener: Order Form Submission
+  let lastOrderDbSaveTime = 0;
   if (orderForm) {
-    orderForm.addEventListener('submit', (e) => {
+    const submitBtn = orderForm.querySelector('button[type="submit"]');
+
+    orderForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Honeypot check
+      const hp = document.getElementById('order-hp');
+      if (hp && hp.value.trim() !== '') {
+        return;
+      }
+
       const name = document.getElementById('user-name').value.trim();
       const phone = document.getElementById('user-phone').value.trim();
       const service = userServiceSelect.value;
@@ -872,6 +895,47 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // Disable submit button for 2 seconds to prevent double taps
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        setTimeout(() => {
+          submitBtn.disabled = false;
+        }, 2000);
+      }
+
+      // Check 10-second cooldown for database insert only
+      const now = Date.now();
+      const shouldSaveToDb = (now - lastOrderDbSaveTime >= 10000);
+      if (shouldSaveToDb) {
+        lastOrderDbSaveTime = now;
+
+        // FIRST: Insert into Supabase orders table with 3-second timeout
+        const hasSb = window.SUPABASE_URL && !window.SUPABASE_URL.includes('your-project') &&
+          window.SUPABASE_ANON_KEY && !window.SUPABASE_ANON_KEY.includes('your-anon-key');
+
+        if (hasSb && window.supabase) {
+          try {
+            if (!window.dla7aSupabase) {
+              window.dla7aSupabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+            }
+            const insertPromise = window.dla7aSupabase.from('orders').insert([{
+              name: name.slice(0, 100),
+              phone: phone.slice(0, 30),
+              service: service || (currentLang === 'ar' ? 'خدمة عامة' : 'General'),
+              notes: notes ? notes.slice(0, 1000) : null,
+              lang: currentLang
+            }]);
+            const timeoutPromise = new Promise((_, reject) =>
+              setTimeout(() => reject(new Error('timeout')), 3000)
+            );
+            await Promise.race([insertPromise, timeoutPromise]);
+          } catch (err) {
+            console.warn('Orders insert error/timeout:', err);
+          }
+        }
+      }
+
+      // THEN: Open wa.me/212781385545 as today (always opens even within cooldown)
       const msg = currentLang === 'ar'
         ? `مرحباً DLA7A SERVICE 👋\nطلب خدمة جديد عبر الموقع:\n- الاسم: ${name}\n- الهاتف/الواتساب: ${phone}\n- الخدمة: ${service || 'خدمة عامة'}\n- ملاحظات: ${notes || 'لا توجد'}`
         : `Hello DLA7A SERVICE 👋\nNew order from website:\n- Name: ${name}\n- Phone/WhatsApp: ${phone}\n- Service: ${service || 'General'}\n- Notes: ${notes || 'None'}`;
@@ -1034,6 +1098,93 @@ document.addEventListener('DOMContentLoaded', () => {
         cleanupAndFinish();
       }, 1700));
     });
+  }
+
+  // Render Creators Section
+  async function renderCreators() {
+    const listEl = document.getElementById('creators-list');
+    if (!listEl) return;
+    function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+    let items = [];
+    const hasSb = window.SUPABASE_URL && !window.SUPABASE_URL.includes('your-project') &&
+      window.SUPABASE_ANON_KEY && !window.SUPABASE_ANON_KEY.includes('your-anon-key');
+
+    if (hasSb && window.supabase) {
+      try {
+        if (!window.dla7aSupabase) {
+          window.dla7aSupabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+        }
+        const { data, error } = await window.dla7aSupabase
+          .from('creators')
+          .select('*')
+          .eq('visible', true)
+          .order('sort_order', { ascending: true });
+
+        if (!error && Array.isArray(data) && data.length > 0) {
+          items = data.map(c => {
+            let photoUrl = c.photo_path || '';
+            if (photoUrl && !photoUrl.startsWith('http')) {
+              const { data: pub } = window.dla7aSupabase.storage.from('creators').getPublicUrl(photoUrl);
+              photoUrl = pub ? pub.publicUrl : photoUrl;
+            }
+            return {
+              name: c.name, handle: c.handle || '', platform: c.platform || 'instagram',
+              photo: photoUrl, followers: c.followers || '', url: c.url || ''
+            };
+          });
+        }
+      } catch (e) {}
+    }
+
+    if (!items.length && typeof INFLUENCERS !== 'undefined' && Array.isArray(INFLUENCERS)) {
+      items = INFLUENCERS.filter(inf => !inf.hidden);
+    }
+    if (!items.length) { listEl.innerHTML = ''; return; }
+
+    const icons = {
+      instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>',
+      tiktok: '<svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.49 6.27 6.27 0 0 0 1.86-4.49V8.52a8.27 8.27 0 0 0 4.84 1.55v-3.38z"/></svg>'
+    };
+
+    listEl.innerHTML = items.map(item => {
+      const icon = icons[item.platform] || icons.instagram;
+      const fHtml = item.followers ? `<span class="creator-followers"><span dir="ltr">${esc(item.followers)}</span></span>` : '';
+      const hHtml = item.handle ? `<span class="creator-handle" dir="ltr">${esc(item.handle)}</span>` : '';
+      const link = item.url ? `<a href="${encodeURI(item.url)}" target="_blank" rel="noopener" class="creator-card-link" aria-label="${esc(item.name)}" style="position:absolute;inset:0;z-index:3;"></a>` : '';
+      return `<li class="creator-card">
+        <img src="${encodeURI(item.photo)}" alt="${esc(item.name)}" loading="lazy" decoding="async" width="280" height="350">
+        <span class="creator-platform" aria-hidden="true">${icon}</span>
+        <div class="creator-info">
+          <span class="creator-name">${esc(item.name)}</span>
+          ${hHtml}
+          ${fHtml}
+        </div>
+        ${link}
+      </li>`;
+    }).join('');
+
+    listEl.querySelectorAll('.creator-card img').forEach(img => {
+      const setImageShape = () => {
+        if (!img.naturalWidth || !img.naturalHeight) return;
+        img.width = img.naturalWidth;
+        img.height = img.naturalHeight;
+        if (img.naturalWidth / img.naturalHeight >= 1.3) img.closest('.creator-card').classList.add('creator-card--wide');
+      };
+      img.addEventListener('load', setImageShape);
+      if (img.complete) setImageShape();
+    });
+
+    const dots = document.querySelector('.creators-dots');
+    if (dots) {
+      dots.innerHTML = items.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}"></span>`).join('');
+      listEl.onscroll = () => {
+        const card = listEl.querySelector('.creator-card');
+        const w = card ? card.offsetWidth + 12 : 1;
+        const idx = Math.min(items.length - 1, Math.max(0, Math.round(Math.abs(listEl.scrollLeft) / w)));
+        dots.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      };
+    }
   }
 
   // Initial Boot

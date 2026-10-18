@@ -1,56 +1,6 @@
 // Generated from the ziad folder. Run the build script after adding photos. Only include people who gave permission.
 const INFLUENCERS = [
   {
-    "name": "WhatsApp Image 2026 10 11 At 12.30.26",
-    "handle": "@WhatsApp Image 2026-10-11 at 12.30.26",
-    "platform": "instagram",
-    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.26.jpeg",
-    "followers": "",
-    "url": "",
-    "role_ar": "",
-    "role_en": ""
-  },
-  {
-    "name": "WhatsApp Image 2026 10 11 At 12.30.26r",
-    "handle": "@WhatsApp Image 2026-10-11 at 12.30.26r",
-    "platform": "instagram",
-    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.26r.jpeg",
-    "followers": "",
-    "url": "",
-    "role_ar": "",
-    "role_en": ""
-  },
-  {
-    "name": "WhatsApp Image 2026 10 11 At 12.30.26rh",
-    "handle": "@WhatsApp Image 2026-10-11 at 12.30.26rh",
-    "platform": "instagram",
-    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.26rh.jpeg",
-    "followers": "",
-    "url": "",
-    "role_ar": "",
-    "role_en": ""
-  },
-  {
-    "name": "WhatsApp Image 2026 10 11 At 12.30.27",
-    "handle": "@WhatsApp Image 2026-10-11 at 12.30.27",
-    "platform": "instagram",
-    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.27.jpeg",
-    "followers": "",
-    "url": "",
-    "role_ar": "",
-    "role_en": ""
-  },
-  {
-    "name": "WhatsApp Image 2026 10 11 At 12.30.27tr",
-    "handle": "@WhatsApp Image 2026-10-11 at 12.30.27tr",
-    "platform": "instagram",
-    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.27tr.jpeg",
-    "followers": "",
-    "url": "",
-    "role_ar": "",
-    "role_en": ""
-  },
-  {
     "name": "Azzr",
     "handle": "@azzr",
     "platform": "instagram",
@@ -58,17 +8,19 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
-    "name": "CùO",
+    "name": "Cùo",
     "handle": "@cùo",
     "platform": "instagram",
     "photo": "ziad/c%C3%B9o.jpeg",
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Herhre",
@@ -78,7 +30,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Hgth",
@@ -88,7 +41,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Hrr",
@@ -98,7 +52,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "R",
@@ -108,7 +63,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Rg",
@@ -118,7 +74,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Ry",
@@ -128,7 +85,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Thet",
@@ -138,7 +96,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Tjhth",
@@ -148,7 +107,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Tth",
@@ -158,7 +118,63 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
+  },
+  {
+    "name": "Whatsapp Image 2026 10 11 At 12.30.26",
+    "handle": "@WhatsApp Image 2026-10-11 at 12.30.26",
+    "platform": "instagram",
+    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.26.jpeg",
+    "followers": "",
+    "url": "",
+    "role_ar": "",
+    "role_en": "",
+    "hidden": false
+  },
+  {
+    "name": "Whatsapp Image 2026 10 11 At 12.30.26r",
+    "handle": "@WhatsApp Image 2026-10-11 at 12.30.26r",
+    "platform": "instagram",
+    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.26r.jpeg",
+    "followers": "",
+    "url": "",
+    "role_ar": "",
+    "role_en": "",
+    "hidden": false
+  },
+  {
+    "name": "Whatsapp Image 2026 10 11 At 12.30.26rh",
+    "handle": "@WhatsApp Image 2026-10-11 at 12.30.26rh",
+    "platform": "instagram",
+    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.26rh.jpeg",
+    "followers": "",
+    "url": "",
+    "role_ar": "",
+    "role_en": "",
+    "hidden": false
+  },
+  {
+    "name": "Whatsapp Image 2026 10 11 At 12.30.27",
+    "handle": "@WhatsApp Image 2026-10-11 at 12.30.27",
+    "platform": "instagram",
+    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.27.jpeg",
+    "followers": "",
+    "url": "",
+    "role_ar": "",
+    "role_en": "",
+    "hidden": false
+  },
+  {
+    "name": "Whatsapp Image 2026 10 11 At 12.30.27tr",
+    "handle": "@WhatsApp Image 2026-10-11 at 12.30.27tr",
+    "platform": "instagram",
+    "photo": "ziad/WhatsApp%20Image%202026-10-11%20at%2012.30.27tr.jpeg",
+    "followers": "",
+    "url": "",
+    "role_ar": "",
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Ze",
@@ -168,7 +184,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Zeg",
@@ -178,7 +195,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   },
   {
     "name": "Zzf",
@@ -188,6 +206,8 @@ const INFLUENCERS = [
     "followers": "",
     "url": "",
     "role_ar": "",
-    "role_en": ""
+    "role_en": "",
+    "hidden": false
   }
 ];
+if (typeof window !== 'undefined') window.INFLUENCERS = INFLUENCERS;

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>DLA7A Admin</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body class="theme-dark">
+  <div class="admin-app">
+    <header class="admin-header">
+      <div class="header-brand">
+        <span class="logo">DLA7A</span>
+      </div>
+      <div class="header-actions">
+        <button id="btn-lang" class="ctrl-btn" type="button">EN</button>
+        <button id="btn-theme" class="ctrl-btn" type="button" aria-label="Toggle theme">◐</button>
+        <button id="btn-logout" class="ctrl-btn btn-danger hidden" type="button">خروج</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <!-- Login Screen -->
+      <section id="view-login" class="admin-card login-card">
+        <h1 id="login-title">تسجيل الدخول</h1>
+        <p id="login-sub" class="muted">لوحة تحكم إدارة المتجر</p>
+        <div id="config-notice" class="notice-box hidden" role="status"></div>
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label for="admin-email" id="lbl-email">البريد الإلكتروني</label>
+            <input type="email" id="admin-email" dir="ltr" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" required placeholder="admin@dla7a.com">
+          </div>
+          <div class="form-group">
+            <label for="admin-password" id="lbl-password">كلمة المرور</label>
+            <div class="password-wrapper">
+              <input type="password" id="admin-password" dir="ltr" autocomplete="current-password" autocapitalize="off" spellcheck="false" required placeholder="••••••••">
+              <button type="button" id="btn-toggle-pwd" class="btn-pwd-toggle" aria-label="عرض كلمة المرور">
+                <svg id="eye-show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="eye-hide" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="login-error" class="alert-error hidden" role="alert"></div>
+          <button type="submit" id="btn-login-submit" class="btn-primary">
+            <span class="btn-text">دخول</span>
+            <span class="btn-spinner hidden" aria-hidden="true"></span>
+          </button>
+        </form>
+      </section>
+
+      <!-- Dashboard View (hidden until authenticated) -->
+      <section id="view-dashboard" class="dashboard-section hidden">
+        <nav class="admin-tabs" role="tablist">
+          <button id="tab-orders-btn" class="tab-btn active" role="tab" aria-selected="true" data-tab="orders">
+            <span id="tab-orders-label">الطلبات</span>
+            <span id="orders-badge" class="tab-badge">0</span>
+          </button>
+          <button id="tab-creators-btn" class="tab-btn" role="tab" aria-selected="false" data-tab="creators">
+            <span id="tab-creators-label">المؤثرون</span>
+          </button>
+        </nav>
+        <div id="tab-orders" class="tab-content" role="tabpanel">
+          <div class="panel-header">
+            <h2 id="orders-title">سجل الطلبات</h2>
+            <div class="panel-actions">
+              <button id="btn-export-orders" type="button" class="btn-action btn-outline">تصدير CSV</button>
+            </div>
+          </div>
+          <div class="orders-toolbar">
+            <div class="search-box">
+              <input type="text" id="search-orders" placeholder="بحث بالاسم أو رقم الهاتف...">
+            </div>
+            <div class="filter-box">
+              <select id="filter-order-status" class="form-select">
+                <option value="all">جميع الحالات</option>
+                <option value="new">جديد (New)</option>
+                <option value="contacted">تم التواصل (Contacted)</option>
+                <option value="done">مكتمل (Done)</option>
+                <option value="cancelled">ملغي (Cancelled)</option>
+              </select>
+            </div>
+          </div>
+          <div id="orders-list" class="orders-container"></div>
+        </div>
+        <div id="tab-creators" class="tab-content hidden" role="tabpanel">
+          <div class="panel-header">
+            <h2 id="creators-title">إدارة المؤثرين</h2>
+            <div class="panel-actions">
+              <button id="btn-add-creator" type="button" class="btn-action">+ إضافة مؤثر</button>
+              <button id="btn-import-creators" type="button" class="btn-action btn-outline">استيراد من influencers.js</button>
+            </div>
+          </div>
+          <div id="creators-import-status" class="notice-box hidden" role="status"></div>
+          <div id="admin-creators-list" class="creators-container"></div>
+        </div>
+      </section>
+
+      <!-- Creator Modal / Form -->
+      <div id="creator-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3 id="creator-form-title">إضافة مؤثر جديد</h3>
+            <button id="btn-close-creator-modal" type="button" class="btn-icon" aria-label="Close">✕</button>
+          </div>
+          <form id="creator-form" novalidate>
+            <input type="hidden" id="creator-id">
+            <input type="hidden" id="creator-photo-path">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="c-name" id="lbl-c-name">الاسم *</label>
+                <input type="text" id="c-name" required placeholder="مثال: يوسف">
+                <span id="err-c-name" class="field-error hidden"></span>
+              </div>
+              <div class="form-group">
+                <label for="c-handle" id="lbl-c-handle">المعرف</label>
+                <input type="text" id="c-handle" dir="ltr" placeholder="@handle">
+              </div>
+              <div class="form-group">
+                <label for="c-platform" id="lbl-c-platform">المنصة</label>
+                <select id="c-platform" class="form-select">
+                  <option value="instagram">Instagram</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="youtube">YouTube</option>
+                  <option value="facebook">Facebook</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="c-followers" id="lbl-c-followers">المتابعون</label>
+                <input type="text" id="c-followers" dir="ltr" placeholder="500K">
+              </div>
+              <div class="form-group full-width">
+                <label for="c-url" id="lbl-c-url">رابط الحساب (URL)</label>
+                <input type="url" id="c-url" dir="ltr" placeholder="https://instagram.com/...">
+                <span id="err-c-url" class="field-error hidden"></span>
+              </div>
+              <div class="form-group">
+                <label for="c-role-ar" id="lbl-c-role-ar">الدور (عربي)</label>
+                <input type="text" id="c-role-ar" placeholder="صانع محتوى">
+              </div>
+              <div class="form-group">
+                <label for="c-role-en" id="lbl-c-role-en">الدور (إنجليزي)</label>
+                <input type="text" id="c-role-en" dir="ltr" placeholder="Content Creator">
+              </div>
+              <div class="form-group full-width">
+                <label for="c-photo-file" id="lbl-c-photo">الصورة (JPG, PNG, WebP &le; 5MB)</label>
+                <input type="file" id="c-photo-file" accept="image/jpeg,image/png,image/webp">
+                <span id="err-c-photo" class="field-error hidden"></span>
+                <div id="c-photo-preview" class="photo-preview-wrap hidden">
+                  <img id="c-preview-img" src="" alt="Preview">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="btn-cancel-creator" class="ctrl-btn">إلغاء</button>
+              <button type="submit" id="btn-save-creator" class="btn-primary">
+                <span class="btn-text">حفظ</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/influencers.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="/config.js"></script>
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>
