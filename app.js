@@ -1225,6 +1225,49 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dots) requestAnimationFrame(updatePosition);
   }
 
+  // Render Creators Teaser (overlapping avatars + CTA link)
+  async function renderCreatorsTeaser() {
+    const section = document.getElementById('creators-teaser');
+    const box = document.getElementById('creators-teaser-avatars');
+    if (!section || !box) return;
+
+    let items = [];
+    const hasSb = window.SUPABASE_URL && !window.SUPABASE_URL.includes('your-project') &&
+      window.SUPABASE_ANON_KEY && !window.SUPABASE_ANON_KEY.includes('your-anon-key');
+    if (hasSb && window.supabase) {
+      try {
+        if (!window.dla7aSupabase) {
+          window.dla7aSupabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+        }
+        const { data, error } = await window.dla7aSupabase
+          .from('creators').select('photo_path').eq('visible', true)
+          .order('sort_order', { ascending: true });
+        if (!error && Array.isArray(data) && data.length > 0) {
+          items = data.map(c => {
+            let p = c.photo_path || '';
+            if (p && !p.startsWith('http')) {
+              const { data: pub } = window.dla7aSupabase.storage.from('creators').getPublicUrl(p);
+              p = pub ? pub.publicUrl : p;
+            }
+            return p;
+          });
+        }
+      } catch (e) {}
+    }
+    if (!items.length && typeof INFLUENCERS !== 'undefined' && Array.isArray(INFLUENCERS)) {
+      items = INFLUENCERS.filter(i => !i.hidden).map(i => i.photo || '');
+    }
+    if (!items.length) { section.style.display = 'none'; return; }
+
+    const max = 5;
+    const shown = items.slice(0, max);
+    const rest = items.length - max;
+    box.innerHTML = shown.map(src =>
+      `<img src="${encodeURI(src)}" alt="" loading="lazy" class="teaser-avatar" width="48" height="48">`
+    ).join('') + (rest > 0 ? `<span class="teaser-more" dir="ltr">+${rest}</span>` : '');
+    section.style.display = '';
+  }
+
   // Initial Boot
   applyTheme(document.documentElement.dataset.theme || 'light');
   setLanguage(currentLang);
