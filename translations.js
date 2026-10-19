@@ -22,6 +22,10 @@ const TRANSLATIONS = {
       title: "DLA7A SERVICE | منصة خدمات التواصل الاجتماعي والحسابات الرقمية بالمغرب",
       description: "نوفر خدمات احترافية لإنستغرام، تيك توك، فيسبوك، حسابات رقمية رسمية Netflix و ChatGPT، أرقام واتساب وشحن ألعاب Free Fire و PES في المغرب."
     },
+    collabMeta: {
+      title: "المؤثرون والتعاونات | DLA7A SERVICE",
+      description: "تعرف على صناع المحتوى والمؤثرين الذين تعاونا معهم في المغرب والعالم العربي مع DLA7A SERVICE."
+    },
     nav: {
       services: "خدماتنا",
       pricing: "الأسعار",
@@ -334,7 +338,21 @@ const TRANSLATIONS = {
       viewMore: "عرض المزيد",
       viewLess: "عرض أقل",
       ctaTitle: "هل أنت صانع محتوى؟ لنتعاون معاً.",
-      ctaBtn: "تواصل معنا عبر واتساب"
+      ctaBtn: "تواصل معنا عبر واتساب",
+      countLabel: "مؤثر",
+      allPlatforms: "الكل",
+      searchPlaceholder: "ابحث بالاسم أو الحساب...",
+      loadMore: "تحميل المزيد",
+      emptyState: "المؤثرون قريباً",
+      noResults: "لم يتم العثور على مؤثرين",
+      backHome: "العودة للرئيسية",
+      waPrefill: "مرحباً DLA7A SERVICE، أنا صانع محتوى وأرغب في التعاون معكم.",
+      platforms: {
+        instagram: "إنستغرام",
+        tiktok: "تيك توك",
+        youtube: "يوتيوب",
+        facebook: "فيسبوك"
+      }
     }
   },
   en: {
@@ -345,6 +363,10 @@ const TRANSLATIONS = {
     meta: {
       title: "DLA7A SERVICE | Social Media & Digital Accounts Platform in Morocco",
       description: "Professional services for Instagram, TikTok, Facebook, official digital accounts (Netflix, ChatGPT), WhatsApp numbers and game top-ups in Morocco."
+    },
+    collabMeta: {
+      title: "Creators & Collaborations | DLA7A SERVICE",
+      description: "Discover the creators and public figures we collaborate with across Morocco and the Arab world with DLA7A SERVICE."
     },
     nav: {
       services: "Services",
@@ -658,7 +680,21 @@ const TRANSLATIONS = {
       viewMore: "View more",
       viewLess: "View less",
       ctaTitle: "Are you a creator? Let's work together.",
-      ctaBtn: "Contact us on WhatsApp"
+      ctaBtn: "Contact us on WhatsApp",
+      countLabel: "creators",
+      allPlatforms: "All",
+      searchPlaceholder: "Search by name or handle...",
+      loadMore: "Load more",
+      emptyState: "Creators coming soon",
+      noResults: "No creators found",
+      backHome: "Back to home",
+      waPrefill: "Hello DLA7A SERVICE, I am a content creator and would like to collaborate with you.",
+      platforms: {
+        instagram: "Instagram",
+        tiktok: "TikTok",
+        youtube: "YouTube",
+        facebook: "Facebook"
+      }
     }
   }
 };

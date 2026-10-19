@@ -93,6 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (text) {
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
           el.placeholder = text;
+        } else if (el.tagName === 'META') {
+          el.setAttribute('content', text);
         } else {
           el.innerHTML = text;
         }
@@ -145,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderWhyUs();
     renderStats();
     renderTestimonials();
-    renderCreators();
+    renderCreatorsTeaser();
     renderPaymentChips();
     renderUnbanSection();
     initUnbanLightbox();
