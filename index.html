@@ -5,8 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" id="meta-theme-color" content="#FFFFFF">
   <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dla7a.com/">
   <title data-i18n="meta.title">DLA7A SERVICE | منصة خدمات التواصل الاجتماعي والحسابات الرقمية بالمغرب</title>
   <meta name="description" data-i18n="meta.description" content="نوفر خدمات احترافية لإنستغرام، تيك توك، فيسبوك، حسابات رقمية رسمية Netflix و ChatGPT، أرقام واتساب وشحن ألعاب Free Fire و PES في المغرب.">
+
+  <!-- Open Graph / WhatsApp / Facebook / Telegram / Discord -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dla7a.com/">
+  <meta property="og:site_name" content="dla7a service">
+  <meta property="og:title" content="dla7a service">
+  <meta property="og:description" content="dla7a service">
+  <meta property="og:image" content="https://dla7a.com/1.jpeg">
+  <meta property="og:image:secure_url" content="https://dla7a.com/1.jpeg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1279">
+  <meta property="og:image:height" content="1230">
+  <meta property="og:image:alt" content="dla7a service">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://dla7a.com/">
+  <meta name="twitter:title" content="dla7a service">
+  <meta name="twitter:description" content="dla7a service">
+  <meta name="twitter:image" content="https://dla7a.com/1.jpeg">
+
+  <!-- Schema.org Microdata -->
+  <meta itemprop="name" content="dla7a service">
+  <meta itemprop="description" content="dla7a service">
+  <meta itemprop="image" content="https://dla7a.com/1.jpeg">
   
   <script>
     (function() {
@@ -32,7 +58,7 @@
   </script>
 
   <style id="intro-styles">
-    /* WELCOME INTRO SPLASH SCREEN STYLES */
+    /* WELCOME INTRO SPLASH SCREEN STYLES - CYBER VIOLET NEON UPGRADE */
     .skip-intro #welcome-intro-overlay,
     #welcome-intro-overlay.intro-hidden {
       display: none !important;
@@ -48,41 +74,103 @@
       height: 100dvh;
       z-index: 999999;
       overflow: hidden;
-      background: transparent;
+      background: #020106;
       user-select: none;
       -webkit-user-select: none;
       direction: ltr;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
+    /* Ambient Pulsing Purple Aurora */
+    .intro-ambient-aurora {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: clamp(340px, 75vw, 680px);
+      height: clamp(340px, 75vw, 680px);
+      transform: translate(-50%, -50%) scale(0.85);
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.32) 0%, rgba(139, 92, 246, 0.16) 42%, rgba(124, 58, 237, 0.05) 65%, transparent 75%);
+      filter: blur(60px);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 800ms ease, transform 1200ms ease;
+    }
+
+    .intro-ambient-aurora.active {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      animation: introAuroraBreathe 3.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes introAuroraBreathe {
+      0% {
+        transform: translate(-50%, -50%) scale(0.92);
+        opacity: 0.75;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 1;
+      }
+    }
+
+    /* Subtle Cyber Grid Pattern */
+    .intro-grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(168, 85, 247, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.07) 1px, transparent 1px);
+      background-size: 48px 48px;
+      background-position: center center;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 25%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 25%, transparent 70%);
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 600ms ease;
+    }
+
+    .intro-grid-pattern.active {
+      opacity: 1;
+    }
+
+    /* Cinematic Curtains with Neon Seam */
     .intro-curtain-top,
     .intro-curtain-bottom {
       position: absolute;
       left: 0;
       width: 100%;
       height: 50.5dvh;
-      background: #000000;
+      background: radial-gradient(ellipse at 50% 100%, #15082a 0%, #080312 60%, #020106 100%);
       z-index: 1;
-      transition: transform 600ms cubic-bezier(0.76, 0, 0.24, 1);
+      transition: transform 650ms cubic-bezier(0.77, 0, 0.175, 1);
       will-change: transform;
     }
 
     .intro-curtain-top {
       top: 0;
+      border-bottom: 1px solid rgba(168, 85, 247, 0.25);
     }
 
     .intro-curtain-bottom {
       bottom: 0;
+      background: radial-gradient(ellipse at 50% 0%, #15082a 0%, #080312 60%, #020106 100%);
+      border-top: 1px solid rgba(168, 85, 247, 0.25);
     }
 
     .intro-exiting .intro-curtain-top {
       transform: translateY(-100%);
+      box-shadow: 0 10px 40px rgba(168, 85, 247, 0.8), 0 0 80px rgba(139, 92, 246, 0.5);
     }
 
     .intro-exiting .intro-curtain-bottom {
       transform: translateY(100%);
+      box-shadow: 0 -10px 40px rgba(168, 85, 247, 0.8), 0 0 80px rgba(139, 92, 246, 0.5);
     }
 
+    /* Content Stage */
     .intro-content {
       position: absolute;
       inset: 0;
@@ -96,94 +184,83 @@
       min-height: 100dvh;
       padding-inline: 16px;
       box-sizing: border-box;
-      z-index: 2;
+      z-index: 3;
       color: #FFFFFF;
       pointer-events: none;
-      transition: opacity 300ms ease;
+      transition: opacity 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 550ms cubic-bezier(0.4, 0, 0.2, 1), filter 350ms ease;
     }
 
     .intro-exiting .intro-content {
       opacity: 0;
+      transform: scale(1.08);
+      filter: blur(8px);
     }
 
-    .intro-skip-btn {
-      position: absolute;
-      top: 20px;
-      inset-inline-end: 20px;
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #A1A1AA;
+    /* Status Badge */
+    .intro-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
       border-radius: 999px;
-      padding: 10px 18px;
-      min-width: 44px;
-      min-height: 44px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      pointer-events: auto;
-      transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
-    }
-
-    .intro-skip-btn:hover {
-      background: rgba(255, 255, 255, 0.16);
-      color: #FFFFFF;
-      border-color: rgba(255, 255, 255, 0.35);
-    }
-
-    .intro-skip-btn:active {
-      transform: scale(0.96);
-    }
-
-    .intro-pulse-dot {
-      width: 6px;
-      height: 6px;
-      background-color: #FFFFFF;
-      border-radius: 50%;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.2), inset 0 0 10px rgba(168, 85, 247, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       opacity: 0;
-      transform: scale(0.5);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-      transition: opacity 300ms ease, transform 300ms ease;
+      transform: translateY(-8px) scale(0.94);
+      transition: opacity 400ms ease, transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
       flex-shrink: 0;
     }
 
-    .intro-pulse-dot.active {
+    .intro-badge.active {
       opacity: 1;
-      transform: scale(1);
-      animation: introDotPulse 1.2s infinite ease-in-out;
+      transform: translateY(0) scale(1);
     }
 
-    @keyframes introDotPulse {
+    .intro-badge-ping {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #A855F7;
+      box-shadow: 0 0 8px #C084FC, 0 0 14px #A855F7;
+      animation: introBadgePulse 1.8s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+
+    @keyframes introBadgePulse {
       0% { transform: scale(0.9); opacity: 0.7; }
-      50% { transform: scale(1.4); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 12px #D8B4FE, 0 0 20px #A855F7; }
       100% { transform: scale(0.9); opacity: 0.7; }
     }
 
-    .intro-line {
-      height: 2px;
-      width: 0px;
-      background: #FFFFFF;
-      border-radius: 2px;
-      transition: width 500ms cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-      flex-shrink: 0;
+    .intro-badge-text {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #E9D5FF;
+      font-family: 'Inter', system-ui, sans-serif;
     }
 
-    .intro-line.active {
-      width: 120px;
+    /* Wordmark Container & Letters */
+    .intro-wordmark-container {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      overflow: hidden;
+      padding-block: 0.08em;
     }
 
     .intro-wordmark {
       display: flex;
       align-items: baseline;
       justify-content: center;
-      gap: 0.02em;
-      font-size: clamp(48px, 16vw, 120px);
-      font-weight: 800;
+      gap: 0.01em;
+      font-size: clamp(52px, 16vw, 126px);
+      font-weight: 900;
       letter-spacing: -0.03em;
-      color: #FFFFFF;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       white-space: nowrap;
       direction: ltr;
@@ -196,16 +273,20 @@
     .intro-letter-wrapper {
       overflow: hidden;
       display: inline-block;
-      line-height: 1.2;
-      padding-block: 0.12em;
+      line-height: 1.15;
+      padding-block: 0.14em;
       vertical-align: bottom;
     }
 
     .intro-letter {
       display: inline-block;
-      transform: translateY(110%);
+      transform: translateY(115%);
       opacity: 0;
-      transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 600ms ease-out;
+      background: linear-gradient(135deg, #FFFFFF 20%, #F5EEFF 50%, #D8B4FE 80%, #C084FC 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.4));
+      transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1), opacity 650ms ease-out;
       will-change: transform, opacity;
     }
 
@@ -214,23 +295,82 @@
       opacity: 1;
     }
 
-    .intro-service-text {
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.35em;
-      color: #A1A1AA;
-      text-transform: uppercase;
+    /* Special Accent for 7 (Cyber Neon Purple) */
+    .intro-letter.intro-letter-seven {
+      background: linear-gradient(135deg, #FFFFFF 10%, #E9D5FF 35%, #A855F7 70%, #9333EA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.85)) drop-shadow(0 0 45px rgba(147, 51, 234, 0.5));
+    }
+
+    /* Laser light sweep across wordmark */
+    .intro-laser-sweep {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -60%;
+      width: 45%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 40%, rgba(216, 180, 254, 0.6) 50%, rgba(255, 255, 255, 0.15) 60%, transparent 100%);
+      transform: skewX(-25deg);
+      pointer-events: none;
       opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 500ms ease-out, transform 500ms ease-out;
-      margin-inline-start: 0.35em;
+      mix-blend-mode: overlay;
+    }
+
+    .intro-laser-sweep.active {
+      opacity: 1;
+      animation: laserSweepRun 1100ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes laserSweepRun {
+      0% {
+        left: -60%;
+      }
+      100% {
+        left: 140%;
+      }
+    }
+
+    /* SERVICE Container with expanding flare lines */
+    .intro-service-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .intro-service-line {
+      height: 1px;
+      width: 0px;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.8));
+      transition: width 500ms cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.7);
       flex-shrink: 0;
     }
 
-    @media (min-width: 768px) {
-      .intro-service-text {
-        font-size: 18px;
-      }
+    .intro-service-line.right {
+      background: linear-gradient(90deg, rgba(168, 85, 247, 0.8), transparent);
+    }
+
+    .intro-service-line.active {
+      width: clamp(24px, 8vw, 60px);
+    }
+
+    .intro-service-text {
+      font-size: clamp(13px, 2.8vw, 17px);
+      font-weight: 700;
+      letter-spacing: 0.5em;
+      color: #D8B4FE;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 500ms ease-out, transform 500ms ease-out;
+      margin-inline-start: 0.5em;
+      text-shadow: 0 0 14px rgba(168, 85, 247, 0.6);
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .intro-service-text.active {
@@ -238,19 +378,21 @@
       transform: translateY(0);
     }
 
+    /* Tagline */
     .intro-tagline {
-      font-size: clamp(15px, 4.2vw, 18px);
-      font-weight: 400;
-      color: #D4D4D8;
+      font-size: clamp(14px, 3.8vw, 17px);
+      font-weight: 500;
+      color: #E4E4E7;
       text-align: center;
       max-width: 90%;
-      line-height: 1.4;
+      line-height: 1.5;
       opacity: 0;
       transform: translateY(8px);
       transition: opacity 500ms ease-out, transform 500ms ease-out;
       padding-inline: 12px;
       box-sizing: border-box;
       flex-shrink: 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
     }
 
     .intro-tagline.active {
@@ -258,25 +400,91 @@
       transform: translateY(0);
     }
 
+    /* Neon Cyber Progress Bar */
     .intro-progress-bar {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 0%;
       height: 3px;
-      background: #FFFFFF;
+      background: linear-gradient(90deg, #7C3AED 0%, #A855F7 50%, #EC4899 100%);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.9), 0 0 30px rgba(236, 72, 153, 0.5);
       z-index: 10;
-      transition: width 2200ms linear;
+      transition: width 2000ms cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     .intro-progress-bar.active {
       width: 100%;
     }
+
+    .intro-progress-spark {
+      position: absolute;
+      top: -3px;
+      right: 0;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 10px #FFFFFF, 0 0 20px #A855F7, 0 0 30px #EC4899;
+      transform: translate(50%, 0);
+    }
+
+    /* Skip Button */
+    .intro-skip-btn {
+      position: absolute;
+      top: 24px;
+      inset-inline-end: 24px;
+      z-index: 10;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #D4D4D8;
+      border-radius: 999px;
+      padding: 9px 18px;
+      min-width: 44px;
+      min-height: 44px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      pointer-events: auto;
+      transition: all 220ms ease;
+    }
+
+    .intro-skip-btn:hover {
+      background: rgba(168, 85, 247, 0.2);
+      color: #FFFFFF;
+      border-color: #A855F7;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .intro-skip-btn:active {
+      transform: scale(0.96);
+    }
+
+    .intro-skip-icon {
+      transition: transform 200ms ease;
+    }
+
+    .intro-skip-btn:hover .intro-skip-icon {
+      transform: translateX(2px);
+    }
+
+    [dir="rtl"] .intro-skip-icon {
+      transform: rotate(180deg);
+    }
+    [dir="rtl"] .intro-skip-btn:hover .intro-skip-icon {
+      transform: rotate(180deg) translateX(2px);
+    }
   </style>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=14">
   <link rel="stylesheet" href="hero-premium.css?v=14">
 </head>
@@ -286,21 +494,50 @@
   <div id="welcome-intro-overlay" dir="ltr" aria-hidden="true">
     <div class="intro-curtain-top"></div>
     <div class="intro-curtain-bottom"></div>
-    <button type="button" id="intro-skip-btn" class="intro-skip-btn">Skip</button>
+    <div class="intro-ambient-aurora"></div>
+    <div class="intro-grid-pattern"></div>
+
+    <button type="button" id="intro-skip-btn" class="intro-skip-btn" aria-label="Skip introduction">
+      <span id="intro-skip-text">Skip</span>
+      <svg class="intro-skip-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+
     <div class="intro-content">
-      <div id="intro-pulse-dot" class="intro-pulse-dot"></div>
-      <div id="intro-line" class="intro-line"></div>
-      <div class="intro-wordmark" dir="ltr">
-        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 0ms;">D</span></span>
-        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 70ms;">L</span></span>
-        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 140ms;">A</span></span>
-        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 210ms;">7</span></span>
-        <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 280ms;">A</span></span>
+      <!-- Status Badge -->
+      <div id="intro-badge" class="intro-badge">
+        <span class="intro-badge-ping"></span>
+        <span id="intro-badge-text" class="intro-badge-text">DLA7A PLATFORM</span>
       </div>
-      <div id="intro-service-text" class="intro-service-text">SERVICE</div>
+
+      <!-- Kinetic Neon Wordmark -->
+      <div class="intro-wordmark-container">
+        <div class="intro-wordmark" dir="ltr">
+          <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 0ms;">D</span></span>
+          <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 75ms;">L</span></span>
+          <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 150ms;">A</span></span>
+          <span class="intro-letter-wrapper"><span class="intro-letter intro-letter-seven" style="transition-delay: 225ms;">7</span></span>
+          <span class="intro-letter-wrapper"><span class="intro-letter" style="transition-delay: 300ms;">A</span></span>
+        </div>
+        <div id="intro-laser-sweep" class="intro-laser-sweep"></div>
+      </div>
+
+      <!-- Spaced "SERVICE" with expanding neon flare lines -->
+      <div class="intro-service-container">
+        <span id="intro-service-line-l" class="intro-service-line left"></span>
+        <div id="intro-service-text" class="intro-service-text">SERVICE</div>
+        <span id="intro-service-line-r" class="intro-service-line right"></span>
+      </div>
+
+      <!-- Tagline -->
       <div id="intro-tagline" class="intro-tagline">Morocco's #1 digital services platform</div>
     </div>
-    <div id="intro-progress-bar" class="intro-progress-bar"></div>
+
+    <!-- Neon Cyber Progress Bar -->
+    <div id="intro-progress-bar" class="intro-progress-bar">
+      <span class="intro-progress-spark"></span>
+    </div>
   </div>
 
   <!-- Floating Pill Header / Navbar -->

@@ -15,6 +15,7 @@ const SITE_CONFIG = {
 const TRANSLATIONS = {
   ar: {
     intro: {
+      badge: "المنصة رقم 1 بالمغرب",
       tagline: "المنصة رقم 1 للخدمات الرقمية في المغرب",
       skip: "تخطي"
     },
@@ -357,6 +358,7 @@ const TRANSLATIONS = {
   },
   en: {
     intro: {
+      badge: "OFFICIAL DIGITAL PLATFORM",
       tagline: "Morocco's #1 digital services platform",
       skip: "Skip"
     },

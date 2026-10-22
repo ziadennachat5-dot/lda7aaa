@@ -1000,12 +1000,15 @@ document.addEventListener('DOMContentLoaded', () => {
     introActive = true;
     lockScroll();
 
-    // Set translated text for tagline & skip button
+    // Set translated text for badge, tagline & skip button
     const tIntro = TRANSLATIONS[currentLang]?.intro || {};
+    const skipText = document.getElementById('intro-skip-text');
     const skipBtn = document.getElementById('intro-skip-btn');
+    const badgeText = document.getElementById('intro-badge-text');
     const taglineEl = document.getElementById('intro-tagline');
     
-    if (skipBtn) skipBtn.textContent = tIntro.skip || (currentLang === 'ar' ? 'تخطي' : 'Skip');
+    if (skipText) skipText.textContent = tIntro.skip || (currentLang === 'ar' ? 'تخطي' : 'Skip');
+    if (badgeText) badgeText.textContent = tIntro.badge || (currentLang === 'ar' ? 'المنصة رقم 1 بالمغرب' : 'OFFICIAL PLATFORM');
     if (taglineEl) taglineEl.textContent = tIntro.tagline || (currentLang === 'ar' ? 'المنصة رقم 1 للخدمات الرقمية في المغرب' : "Morocco's #1 digital services platform");
     
     if (currentLang === 'ar' && taglineEl) {
@@ -1036,17 +1039,17 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.visibility = 'hidden';
         overlay.remove();
         unlockScroll();
-      }, 550);
+      }, 650);
 
       setTimeout(() => {
         triggerHeroFadeUp();
-      }, 100);
+      }, 120);
     }
 
-    // Failsafe timer (3.5s)
+    // Failsafe timer (3.8s)
     const failsafeTimer = setTimeout(() => {
       cleanupAndFinish();
-    }, 3500);
+    }, 3800);
     timers.push(failsafeTimer);
 
     // End early on tap / click anywhere on overlay or skip button
@@ -1071,34 +1074,50 @@ document.addEventListener('DOMContentLoaded', () => {
     Promise.race([fontReadyPromise, fontTimeoutPromise]).then(() => {
       if (isCompleted) return;
 
-      const dot = document.getElementById('intro-pulse-dot');
-      const line = document.getElementById('intro-line');
+      const aurora = overlay.querySelector('.intro-ambient-aurora');
+      const grid = overlay.querySelector('.intro-grid-pattern');
+      const badge = document.getElementById('intro-badge');
       const letters = overlay.querySelectorAll('.intro-letter');
+      const laserSweep = document.getElementById('intro-laser-sweep');
+      const serviceLineL = document.getElementById('intro-service-line-l');
+      const serviceLineR = document.getElementById('intro-service-line-r');
       const serviceText = document.getElementById('intro-service-text');
       const progressBar = document.getElementById('intro-progress-bar');
 
-      // 0.0s: Line draw & dot & progress line
+      // 0.05s: Ambient Aurora & Grid & Progress Bar & Badge appear
       timers.push(setTimeout(() => {
-        if (dot) dot.classList.add('active');
-        if (line) line.classList.add('active');
+        if (aurora) aurora.classList.add('active');
+        if (grid) grid.classList.add('active');
         if (progressBar) progressBar.classList.add('active');
+        if (badge) badge.classList.add('active');
       }, 50));
 
-      // 0.3s - 1.2s: DLA7A wordmark letters slide up
+      // 0.25s: Wordmark letters slide up with spring cubic-bezier
       timers.push(setTimeout(() => {
         letters.forEach(l => l.classList.add('active'));
-      }, 300));
+      }, 250));
 
-      // 1.0s - 1.5s: SERVICE & Tagline fade in
+      // 0.65s: Laser light sweep runs across wordmark
       timers.push(setTimeout(() => {
-        if (serviceText) serviceText.classList.add('active');
-        if (taglineEl) taglineEl.classList.add('active');
-      }, 1000));
+        if (laserSweep) laserSweep.classList.add('active');
+      }, 650));
 
-      // 1.7s: Start Curtain Exit
+      // 0.85s: Flare divider lines expand & "SERVICE" reveals with neon glow
+      timers.push(setTimeout(() => {
+        if (serviceLineL) serviceLineL.classList.add('active');
+        if (serviceLineR) serviceLineR.classList.add('active');
+        if (serviceText) serviceText.classList.add('active');
+      }, 850));
+
+      // 1.15s: Tagline fades up
+      timers.push(setTimeout(() => {
+        if (taglineEl) taglineEl.classList.add('active');
+      }, 1150));
+
+      // 2.05s: Curtain exit begins
       timers.push(setTimeout(() => {
         cleanupAndFinish();
-      }, 1700));
+      }, 2050));
     });
   }
 

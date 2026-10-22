@@ -9,5 +9,30 @@
 *.css
   Content-Type: text/css; charset=utf-8
   X-Content-Type-Options: nosniff
+
+*.jpeg
+  Content-Type: image/jpeg
+  X-Content-Type-Options: nosniff
+
+*.jpg
+  Content-Type: image/jpeg
+  X-Content-Type-Options: nosniff
+
+*.png
+  Content-Type: image/png
+  X-Content-Type-Options: nosniff
+
+*.webp
+  Content-Type: image/webp
+  X-Content-Type-Options: nosniff
+
+*.ico
+  Content-Type: image/x-icon
+  X-Content-Type-Options: nosniff
+
+*.svg
+  Content-Type: image/svg+xml
+  X-Content-Type-Options: nosniff
+
 /admin/*
   X-Robots-Tag: noindex, nofollow
