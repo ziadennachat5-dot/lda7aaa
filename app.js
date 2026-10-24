@@ -3,8 +3,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   // State variables
   let currentLang = localStorage.getItem('dla7a_lang') || 'ar';
-  let currentTheme = localStorage.getItem('dla7a_theme') || 'light';
+  let currentTheme = localStorage.getItem('theme') || localStorage.getItem('dla7a_theme') || 'dark';
   let activePricingTab = 'ig';
+  const sbClient = (typeof window !== 'undefined' && window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY)
+    ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+    : null;
+  let publicProducts = null;
+  let activeProductCat = 'all';
 
   // Core DOM Elements
   const menuToggleBtn = document.getElementById('menu-toggle-mobile');
@@ -42,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     try {
       localStorage.setItem('theme', theme);
+      localStorage.setItem('dla7a_theme', theme);
     } catch (e) {}
 
     const isDark = theme === 'dark';
@@ -56,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update meta theme-color tag
     const metaThemeColor = document.getElementById('meta-theme-color');
     if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', isDark ? '#0A0A0A' : '#FFFFFF');
+      metaThemeColor.setAttribute('content', isDark ? '#030008' : '#FAF5FF');
     }
   }
 
@@ -112,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Re-apply theme UI
-    applyTheme(document.documentElement.dataset.theme || 'light');
+    applyTheme(document.documentElement.dataset.theme || 'dark');
 
     // Update WhatsApp Direct Links with current language greeting
     const fullWaUrl = getWhatsAppUrl(lang === 'ar' ? "مرحباً DLA7A SERVICE، أريد الاستفسار أو طلب خدمة." : "Hello DLA7A SERVICE, I would like to order or inquire about a service.");
@@ -141,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSelectOptions();
     renderServicesOverview();
     renderPricingList();
-    renderDigitalAccounts();
+    renderProducts();
     renderWhatsAppServices();
     renderGameTopUp();
     renderWhyUs();
@@ -325,42 +331,155 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Render Digital Accounts Cards
-  function renderDigitalAccounts() {
-    const container = document.getElementById('accounts-grid');
+  const escapeHtml = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  async function loadPublicProducts() {
+    if (!sbClient) return null;
+    try {
+      const { data, error } = await sbClient
+        .from('products')
+        .select('*')
+        .eq('visible', true)
+        .order('sort_order', { ascending: true });
+      if (!error && Array.isArray(data)) {
+        publicProducts = data;
+        return data;
+      }
+    } catch (e) {
+      console.warn('Could not load products from Supabase:', e);
+    }
+    return null;
+  }
+
+  function renderDigitalAccountsFallback(container) {
     if (!container) return;
     container.innerHTML = '';
-
-    const items = TRANSLATIONS[currentLang].accounts.items;
+    const items = TRANSLATIONS[currentLang].accounts?.items || [];
     items.forEach(acc => {
       const card = document.createElement('div');
       card.className = 'card';
-
-      const featsHtml = acc.feats.map(f => `
+      const featsHtml = (acc.feats || []).map(f => `
         <li class="feature-item">
           <span class="check-mark">✓</span>
           <span>${f}</span>
         </li>
       `).join('');
-
       const waMsg = currentLang === 'ar'
         ? `مرحباً DLA7A SERVICE، أريد طلب حساب (${acc.name}).`
         : `Hello DLA7A SERVICE, I want to order account (${acc.name}).`;
-
       card.innerHTML = `
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
           <span class="micro-text" style="font-weight: 700;">${acc.cat}</span>
           <span class="badge">${acc.badge}</span>
         </div>
         <h3 class="card-title">${acc.name}</h3>
-        <span class="micro-text ltr-isolate" style="font-weight: 600;">${TRANSLATIONS[currentLang].accounts.from} ${acc.note}</span>
+        <span class="micro-text ltr-isolate" style="font-weight: 600;">${TRANSLATIONS[currentLang].accounts?.from || ''} ${acc.note}</span>
         <ul class="feature-list" style="margin-block: 8px;">${featsHtml}</ul>
         <a href="${getWhatsAppUrl(waMsg)}" target="_blank" rel="noopener" class="btn btn-secondary" style="margin-block-start: auto;">
-          ${TRANSLATIONS[currentLang].accounts.orderBtn}
+          ${TRANSLATIONS[currentLang].accounts?.orderBtn || 'Order'}
         </a>
       `;
       container.appendChild(card);
     });
+  }
+
+  async function renderProducts() {
+    const container = document.getElementById('products-grid') || document.getElementById('accounts-grid');
+    if (!container) return;
+
+    if (publicProducts === null) {
+      await loadPublicProducts();
+    }
+
+    if (Array.isArray(publicProducts) && publicProducts.length > 0) {
+      const filtered = publicProducts.filter(p => {
+        if (activeProductCat === 'all') return true;
+        return (p.category || 'other') === activeProductCat;
+      });
+
+      if (!filtered.length) {
+        const noProdText = currentLang === 'ar' ? 'لا توجد منتجات متوفرة في هذه الفئة حالياً.' : 'No products available in this category currently.';
+        container.innerHTML = `<div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);">${noProdText}</div>`;
+        return;
+      }
+
+      const tProd = TRANSLATIONS[currentLang].products || {};
+      const currency = currentLang === 'ar' ? 'درهم' : 'MAD';
+      const catLabels = {
+        ar: { accounts: 'حسابات', social: 'سوشيال ميديا', whatsapp: 'واتساب', gaming: 'ألعاب', other: 'أخرى' },
+        en: { accounts: 'Accounts', social: 'Social', whatsapp: 'WhatsApp', gaming: 'Gaming', other: 'Other' }
+      };
+      const cats = catLabels[currentLang] || catLabels.en;
+
+      container.innerHTML = filtered.map(p => {
+        const name = currentLang === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar);
+        const desc = currentLang === 'ar' ? (p.desc_ar || '') : (p.desc_en || '');
+        const priceNote = currentLang === 'ar' ? (p.price_note_ar || '') : (p.price_note_en || '');
+        const catName = cats[p.category] || p.category;
+        
+        let photoUrl = '';
+        if (p.photo_path) {
+          if (p.photo_path.startsWith('http')) {
+            photoUrl = p.photo_path;
+          } else if (sbClient) {
+            const { data } = sbClient.storage.from('products').getPublicUrl(p.photo_path);
+            if (data) photoUrl = data.publicUrl;
+          }
+        }
+
+        const imgHtml = photoUrl ? `
+          <div class="product-card-img-wrap">
+            <img src="${encodeURI(photoUrl)}" alt="${escapeHtml(name)}" loading="lazy" class="product-card-img">
+          </div>
+        ` : '';
+
+        const badgeHtml = p.badge ? `<span class="badge">${escapeHtml(p.badge)}</span>` : '';
+        const priceNum = (p.price != null && p.price !== '') ? p.price : '';
+        const priceDisplay = priceNum !== '' ? `<span class="product-price" dir="ltr">${priceNum} ${currency}</span>` : '';
+        const priceNoteDisplay = priceNote ? `<span class="product-price-note">${escapeHtml(priceNote)}</span>` : '';
+
+        const inStock = p.in_stock !== false;
+        let ctaHtml = '';
+        if (inStock) {
+          const waPriceText = priceNum !== '' ? `${priceNum} ${currency}` : '';
+          const waMsg = currentLang === 'ar'
+            ? `مرحباً DLA7A SERVICE، أريد طلب (${name})${waPriceText ? ` بسعر (${waPriceText})` : ''}.`
+            : `Hello DLA7A SERVICE, I want to order (${name})${waPriceText ? ` for (${waPriceText})` : ''}.`;
+          const waUrl = `https://wa.me/212781385545?text=${encodeURIComponent(waMsg)}`;
+          ctaHtml = `
+            <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="margin-block-start: auto;">
+              ${tProd.orderBtn || (currentLang === 'ar' ? 'اطلب الآن' : 'Order Now')}
+            </a>
+          `;
+        } else {
+          ctaHtml = `
+            <button type="button" class="btn btn-secondary" disabled style="margin-block-start: auto; opacity: 0.55; cursor: not-allowed;">
+              ${tProd.outOfStockBtn || (currentLang === 'ar' ? 'نفدت الكمية' : 'Sold Out')}
+            </button>
+          `;
+        }
+
+        return `
+          <div class="card product-card">
+            ${imgHtml}
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span class="product-cat-tag">${escapeHtml(catName)}</span>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                ${badgeHtml}
+                ${!inStock ? `<span class="sold-out-badge">${tProd.soldOut || (currentLang === 'ar' ? 'نفدت الكمية' : 'Sold Out')}</span>` : ''}
+              </div>
+            </div>
+            <h3 class="card-title">${escapeHtml(name)}</h3>
+            ${desc ? `<p class="body-text" style="font-size: 14px; margin: 0;">${escapeHtml(desc)}</p>` : ''}
+            ${priceDisplay ? `<div class="product-price-row">${priceDisplay} ${priceNoteDisplay}</div>` : ''}
+            ${ctaHtml}
+          </div>
+        `;
+      }).join('');
+      return;
+    }
+
+    renderDigitalAccountsFallback(container);
   }
 
   // Render WhatsApp Services Cards
@@ -528,8 +647,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  let publicUnbanPhotos = null;
+
+  async function loadPublicUnbanPhotos() {
+    if (!sbClient) return null;
+    try {
+      const { data, error } = await sbClient
+        .from('recovered_accounts')
+        .select('*')
+        .eq('visible', true)
+        .order('sort_order', { ascending: true })
+        .order('created_at', { ascending: false });
+      if (!error && Array.isArray(data) && data.length > 0) {
+        publicUnbanPhotos = data.map(item => {
+          let photoUrl = item.photo_path || '';
+          if (photoUrl && !photoUrl.startsWith('http') && !photoUrl.startsWith('/') && !photoUrl.startsWith('anas/')) {
+            const { data: pData } = sbClient.storage.from('unban').getPublicUrl(photoUrl);
+            photoUrl = pData?.publicUrl || photoUrl;
+          }
+          return {
+            photo: photoUrl,
+            caption_ar: item.caption_ar || '',
+            caption_en: item.caption_en || ''
+          };
+        });
+        return publicUnbanPhotos;
+      }
+    } catch (e) {
+      console.warn('Could not load unban proofs from Supabase:', e);
+    }
+    return null;
+  }
+
+  function getActiveUnbanList() {
+    if (Array.isArray(publicUnbanPhotos) && publicUnbanPhotos.length > 0) {
+      return publicUnbanPhotos;
+    }
+    return (typeof UNBAN_GALLERY !== 'undefined' && Array.isArray(UNBAN_GALLERY)) ? UNBAN_GALLERY : [];
+  }
+
   // Render Unban Section
-  function renderUnbanSection() {
+  async function renderUnbanSection() {
     const t = TRANSLATIONS[currentLang].unban;
     const fixesGrid = document.getElementById('unban-fixes-grid');
     const stepsContainer = document.getElementById('unban-steps-container');
@@ -537,6 +695,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyState = document.getElementById('unban-empty-state');
     const priceDisplay = document.getElementById('unban-price-display');
     const ctaBtn = document.getElementById('unban-cta-btn');
+
+    if (publicUnbanPhotos === null) {
+      await loadPublicUnbanPhotos();
+    }
 
     // Render fix cards
     if (fixesGrid) {
@@ -573,18 +735,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render gallery
     if (galleryContainer && emptyState) {
       galleryContainer.innerHTML = '';
-      
-      if (UNBAN_GALLERY.length === 0) {
+      galleryContainer.parentElement?.querySelectorAll('.unban-view-more-btn').forEach(btn => btn.remove());
+
+      const galleryList = getActiveUnbanList();
+
+      if (galleryList.length === 0) {
         galleryContainer.style.display = 'none';
         emptyState.style.display = 'flex';
       } else {
         galleryContainer.style.display = 'grid';
         emptyState.style.display = 'none';
 
-        const initialCount = Math.min(6, UNBAN_GALLERY.length);
+        const initialCount = Math.min(6, galleryList.length);
         
         for (let i = 0; i < initialCount; i++) {
-          const item = UNBAN_GALLERY[i];
+          const item = galleryList[i];
           const galleryItem = document.createElement('div');
           galleryItem.className = 'unban-gallery-item';
           galleryItem.dataset.index = i;
@@ -600,13 +765,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Add view more button if there are more than 6 photos
-        if (UNBAN_GALLERY.length > 6) {
+        if (galleryList.length > 6) {
           const viewMoreBtn = document.createElement('button');
           viewMoreBtn.className = 'unban-view-more-btn';
           viewMoreBtn.textContent = t.viewMore;
           viewMoreBtn.addEventListener('click', () => {
-            for (let i = 6; i < UNBAN_GALLERY.length; i++) {
-              const item = UNBAN_GALLERY[i];
+            for (let i = 6; i < galleryList.length; i++) {
+              const item = galleryList[i];
               const galleryItem = document.createElement('div');
               galleryItem.className = 'unban-gallery-item';
               galleryItem.dataset.index = i;
@@ -717,16 +882,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('unban-lightbox');
     const img = document.getElementById('unban-lightbox-img');
     const counter = document.getElementById('unban-lightbox-counter');
+    const galleryList = getActiveUnbanList();
 
-    if (!lightbox || !img || UNBAN_GALLERY.length === 0) return;
+    if (!lightbox || !img || galleryList.length === 0) return;
 
     currentLightboxIndex = index;
-    const item = UNBAN_GALLERY[index];
+    const item = galleryList[index];
     img.src = item.photo;
     img.alt = currentLang === 'ar' ? (item.caption_ar || 'حساب مسترجع') : (item.caption_en || 'Recovered account');
     
     if (counter) {
-      counter.textContent = `${index + 1} / ${UNBAN_GALLERY.length}`;
+      counter.textContent = `${index + 1} / ${galleryList.length}`;
     }
 
     lightbox.classList.add('active');
@@ -744,13 +910,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function navigateLightbox(direction) {
-    if (UNBAN_GALLERY.length === 0) return;
+    const galleryList = getActiveUnbanList();
+    if (galleryList.length === 0) return;
 
     currentLightboxIndex += direction;
 
     if (currentLightboxIndex < 0) {
-      currentLightboxIndex = UNBAN_GALLERY.length - 1;
-    } else if (currentLightboxIndex >= UNBAN_GALLERY.length) {
+      currentLightboxIndex = galleryList.length - 1;
+    } else if (currentLightboxIndex >= galleryList.length) {
       currentLightboxIndex = 0;
     }
 
@@ -865,6 +1032,19 @@ document.addEventListener('DOMContentLoaded', () => {
       renderPricingList();
     });
   });
+
+  // Event Listeners: Products Category Filter Chips
+  const productFilterContainer = document.getElementById('product-category-filters');
+  if (productFilterContainer) {
+    productFilterContainer.addEventListener('click', (e) => {
+      const chip = e.target.closest('.product-filter-chip');
+      if (!chip) return;
+      productFilterContainer.querySelectorAll('.product-filter-chip').forEach(p => p.classList.remove('active'));
+      chip.classList.add('active');
+      activeProductCat = chip.dataset.cat || 'all';
+      renderProducts();
+    });
+  }
 
   // Event Listener: Order Form Submission
   let lastOrderDbSaveTime = 0;
@@ -1288,7 +1468,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Initial Boot
-  applyTheme(document.documentElement.dataset.theme || 'light');
+  applyTheme(document.documentElement.dataset.theme || 'dark');
   setLanguage(currentLang);
   initWelcomeIntro();
 });

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" id="meta-theme-color" content="#FFFFFF">
+  <meta name="theme-color" id="meta-theme-color" content="#030008">
   <link rel="icon" href="/favicon.ico">
   <link rel="canonical" href="https://dla7a.com/">
   <title data-i18n="meta.title">DLA7A SERVICE | منصة خدمات التواصل الاجتماعي والحسابات الرقمية بالمغرب</title>
@@ -37,10 +37,7 @@
   <script>
     (function() {
       try {
-        var t = localStorage.getItem('theme');
-        if (!t) {
-          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        var t = localStorage.getItem('theme') || localStorage.getItem('dla7a_theme') || 'dark';
         document.documentElement.dataset.theme = t;
 
         // Intro splash screen early check
@@ -52,7 +49,7 @@
           document.documentElement.classList.add('skip-intro');
         }
       } catch (e) {
-        document.documentElement.dataset.theme = 'light';
+        document.documentElement.dataset.theme = 'dark';
       }
     })();
   </script>
@@ -485,8 +482,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
-  <link rel="stylesheet" href="hero-premium.css?v=14">
+  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="hero-premium.css?v=15">
 </head>
 <body>
 
@@ -553,7 +550,7 @@
         <a href="#services" class="nav-link" data-i18n="nav.services">خدماتنا</a>
         <a href="#pricing" class="nav-link" data-i18n="nav.pricing">الأسعار</a>
         <a href="#unban" class="nav-link" data-i18n="nav.unban">فك الحظر</a>
-        <a href="#accounts" class="nav-link" data-i18n="nav.accounts">الحسابات</a>
+        <a href="#products" class="nav-link" data-i18n="nav.products">المنتجات</a>
         <a href="/collaborations" class="nav-link" data-i18n="nav.creators">Creators</a>
         <a href="#testimonials" class="nav-link" data-i18n="nav.reviews">آراء العملاء</a>
         <a href="#contact" class="nav-link" data-i18n="nav.contact">تواصل معنا</a>
@@ -588,7 +585,7 @@
       <a href="#services" class="drawer-nav-link" data-i18n="nav.services">خدماتنا <span>→</span></a>
       <a href="#pricing" class="drawer-nav-link" data-i18n="nav.pricing">الأسعار <span>→</span></a>
       <a href="#unban" class="drawer-nav-link" data-i18n="nav.unban">فك الحظر <span>→</span></a>
-      <a href="#accounts" class="drawer-nav-link" data-i18n="nav.accounts">الحسابات <span>→</span></a>
+      <a href="#products" class="drawer-nav-link" data-i18n="nav.products">المنتجات <span>→</span></a>
       <a href="/collaborations" class="drawer-nav-link" data-i18n="nav.creators">Creators <span>→</span></a>
       <a href="#testimonials" class="drawer-nav-link" data-i18n="nav.reviews">آراء العملاء <span>→</span></a>
       <a href="#contact" class="drawer-nav-link" data-i18n="nav.contact">تواصل معنا <span>→</span></a>
@@ -769,14 +766,24 @@
       </div>
     </section>
 
-    <!-- Digital Accounts Section -->
-    <section id="accounts" class="section">
+    <!-- Products Section -->
+    <section id="products" class="section">
+      <span id="accounts" style="position:relative; top:-90px; visibility:hidden;"></span>
       <div class="container flex-col">
-        <div class="badge" data-i18n="accounts.badge">اشتراكات أصلية مفعلية</div>
-        <h2 class="section-title" data-i18n="accounts.title">الحسابات الرقمية والاشتراكات</h2>
-        <p class="body-text" data-i18n="accounts.subtitle">اطلب حسابات رسمية وآمنة لأشهر المنصات العالمية بأسعار ممتازة</p>
+        <div class="badge" data-i18n="products.badge">منتجات واشتراكات حصرية</div>
+        <h2 class="section-title" data-i18n="products.title">المنتجات الرقمية</h2>
+        <p class="body-text" data-i18n="products.subtitle">اكتشف أحدث العروض والخدمات المتاحة للتفعيل الفوري</p>
 
-        <div id="accounts-grid" class="grid grid-3">
+        <!-- Category Filter Chips -->
+        <div class="product-filters" id="product-category-filters">
+          <button type="button" class="product-filter-chip active" data-cat="all" data-i18n="products.filterAll">الكل</button>
+          <button type="button" class="product-filter-chip" data-cat="accounts" data-i18n="products.filterAccounts">حسابات</button>
+          <button type="button" class="product-filter-chip" data-cat="social" data-i18n="products.filterSocial">سوشيال ميديا</button>
+          <button type="button" class="product-filter-chip" data-cat="whatsapp" data-i18n="products.filterWhatsapp">واتساب</button>
+          <button type="button" class="product-filter-chip" data-cat="gaming" data-i18n="products.filterGaming">ألعاب</button>
+        </div>
+
+        <div id="products-grid" class="grid grid-3">
           <!-- Rendered dynamically by app.js -->
         </div>
       </div>
@@ -978,7 +985,7 @@
             <a href="#services" class="micro-text" data-i18n="nav.services">خدماتنا</a>
             <a href="#pricing" class="micro-text" data-i18n="nav.pricing">الأسعار</a>
             <a href="#unban" class="micro-text" data-i18n="nav.unban">فك الحظر</a>
-            <a href="#accounts" class="micro-text" data-i18n="nav.accounts">الحسابات</a>
+            <a href="#products" class="micro-text" data-i18n="nav.products">المنتجات</a>
             <a href="/collaborations" class="micro-text" data-i18n="nav.creators">Creators</a>
             <a href="#whatsapp-sec" class="micro-text" data-i18n="nav.whatsapp">واتساب</a>
             <a href="#gaming" class="micro-text" data-i18n="nav.gaming">ألعاب</a>
@@ -1016,12 +1023,12 @@
     <span class="unban-lightbox-counter" id="unban-lightbox-counter"></span>
   </div>
 
-  <script src="translations.js?v=14" charset="utf-8"></script>
-  <script src="unban-gallery.js?v=14" charset="utf-8"></script>
-  <script src="influencers.js?v=14" charset="utf-8"></script>
-  <script src="hero-premium.js?v=14" charset="utf-8"></script>
+  <script src="translations.js?v=17" charset="utf-8"></script>
+  <script src="unban-gallery.js?v=17" charset="utf-8"></script>
+  <script src="influencers.js?v=17" charset="utf-8"></script>
+  <script src="hero-premium.js?v=17" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-  <script src="config.js?v=14" charset="utf-8"></script>
-  <script src="app.js?v=14" charset="utf-8"></script>
+  <script src="config.js?v=17" charset="utf-8"></script>
+  <script src="app.js?v=17" charset="utf-8"></script>
   </body>
 </html>

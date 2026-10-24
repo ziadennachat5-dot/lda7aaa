@@ -71,3 +71,40 @@ DROP POLICY IF EXISTS "Admin update creators bucket" ON storage.objects;
 CREATE POLICY "Admin update creators bucket" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'creators');
 DROP POLICY IF EXISTS "Admin delete creators bucket" ON storage.objects;
 CREATE POLICY "Admin delete creators bucket" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'creators');
+
+-- 8. RECOVERED ACCOUNTS (UNBAN GALLERY) TABLE
+CREATE TABLE IF NOT EXISTS public.recovered_accounts (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  caption_ar text,
+  caption_en text,
+  photo_path text NOT NULL,
+  visible boolean DEFAULT true,
+  sort_order int DEFAULT 0,
+  created_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE public.recovered_accounts ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public view visible recovered accounts" ON public.recovered_accounts;
+CREATE POLICY "Public view visible recovered accounts" ON public.recovered_accounts FOR SELECT TO public USING (visible = true);
+DROP POLICY IF EXISTS "Admin select all recovered accounts" ON public.recovered_accounts;
+CREATE POLICY "Admin select all recovered accounts" ON public.recovered_accounts FOR SELECT TO authenticated USING (true);
+DROP POLICY IF EXISTS "Admin insert recovered accounts" ON public.recovered_accounts;
+CREATE POLICY "Admin insert recovered accounts" ON public.recovered_accounts FOR INSERT TO authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin update recovered accounts" ON public.recovered_accounts;
+CREATE POLICY "Admin update recovered accounts" ON public.recovered_accounts FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin delete recovered accounts" ON public.recovered_accounts;
+CREATE POLICY "Admin delete recovered accounts" ON public.recovered_accounts FOR DELETE TO authenticated USING (true);
+
+-- 9. STORAGE BUCKET: unban (public read)
+INSERT INTO storage.buckets (id, name, public) VALUES ('unban', 'unban', true) ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Public read unban bucket" ON storage.objects;
+CREATE POLICY "Public read unban bucket" ON storage.objects FOR SELECT TO public USING (bucket_id = 'unban');
+DROP POLICY IF EXISTS "Admin upload unban bucket" ON storage.objects;
+CREATE POLICY "Admin upload unban bucket" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'unban');
+DROP POLICY IF EXISTS "Admin update unban bucket" ON storage.objects;
+CREATE POLICY "Admin update unban bucket" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'unban');
+DROP POLICY IF EXISTS "Admin delete unban bucket" ON storage.objects;
+CREATE POLICY "Admin delete unban bucket" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'unban');
+

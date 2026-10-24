@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light" class="skip-intro">
+<html lang="ar" dir="rtl" data-theme="dark" class="skip-intro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" id="meta-theme-color" content="#FFFFFF">
+  <meta name="theme-color" id="meta-theme-color" content="#030008">
   <link rel="icon" href="/favicon.ico">
   
   <title data-i18n="collabMeta.title">المؤثرون والتعاونات | DLA7A SERVICE</title>
@@ -32,10 +32,7 @@
   <script>
     (function() {
       try {
-        var t = localStorage.getItem('theme') || localStorage.getItem('dla7a_theme');
-        if (!t) {
-          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        var t = localStorage.getItem('theme') || localStorage.getItem('dla7a_theme') || 'dark';
         document.documentElement.dataset.theme = t;
         document.documentElement.classList.add('skip-intro');
 
@@ -45,7 +42,7 @@
           document.documentElement.dir = 'ltr';
         }
       } catch (e) {
-        document.documentElement.dataset.theme = 'light';
+        document.documentElement.dataset.theme = 'dark';
       }
     })();
   </script>
@@ -53,7 +50,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=14">
+  <link rel="stylesheet" href="/style.css?v=17">
 </head>
 <body>
 
@@ -70,7 +67,7 @@
         <a href="/#services" class="nav-link" data-i18n="nav.services">خدماتنا</a>
         <a href="/#pricing" class="nav-link" data-i18n="nav.pricing">الأسعار</a>
         <a href="/#unban" class="nav-link" data-i18n="nav.unban">فك الحظر</a>
-        <a href="/#accounts" class="nav-link" data-i18n="nav.accounts">الحسابات</a>
+        <a href="/#products" class="nav-link" data-i18n="nav.products">المنتجات</a>
         <a href="/collaborations" class="nav-link active" data-i18n="nav.creators">المؤثرون</a>
         <a href="/#testimonials" class="nav-link" data-i18n="nav.reviews">آراء العملاء</a>
         <a href="/#contact" class="nav-link" data-i18n="nav.contact">تواصل معنا</a>
@@ -105,7 +102,7 @@
       <a href="/#services" class="drawer-nav-link" data-i18n="nav.services">خدماتنا <span>&rarr;</span></a>
       <a href="/#pricing" class="drawer-nav-link" data-i18n="nav.pricing">الأسعار <span>&rarr;</span></a>
       <a href="/#unban" class="drawer-nav-link" data-i18n="nav.unban">فك الحظر <span>&rarr;</span></a>
-      <a href="/#accounts" class="drawer-nav-link" data-i18n="nav.accounts">الحسابات <span>&rarr;</span></a>
+      <a href="/#products" class="drawer-nav-link" data-i18n="nav.products">المنتجات <span>&rarr;</span></a>
       <a href="/collaborations" class="drawer-nav-link active" data-i18n="nav.creators">المؤثرون <span>&rarr;</span></a>
       <a href="/#testimonials" class="drawer-nav-link" data-i18n="nav.reviews">آراء العملاء <span>&rarr;</span></a>
       <a href="/#contact" class="drawer-nav-link" data-i18n="nav.contact">تواصل معنا <span>&rarr;</span></a>

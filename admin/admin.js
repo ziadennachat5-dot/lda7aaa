@@ -7,8 +7,8 @@
 
   let lang = 'ar', failedTries = 0, lockUntil = 0, activityTimer = null;
   const T = {
-    ar: { title: "تسجيل الدخول", sub: "لوحة تحكم إدارة المتجر", email: "البريد الإلكتروني", pass: "كلمة المرور", submit: "دخول", orders: "الطلبات", creators: "المؤثرون", logout: "خروج", ordersTitle: "سجل الطلبات", creatorsTitle: "إدارة المؤثرين", errAuth: "البيانات المدخلة غير صحيحة", errLock: "محاولات كثيرة. يرجى الانتظار دقيقة", noticeConfig: "لم يتم ضبط Supabase بعد. املأ ملف config.js.", showPass: "عرض كلمة المرور", hidePass: "إخفاء كلمة المرور", addCreator: "+ إضافة مؤثر", importBtn: "استيراد من influencers.js", editCreator: "تعديل مؤثر", save: "حفظ", cancel: "إلغاء", emptyCreators: "لا يوجد مؤثرون حالياً. يمكنك إضافة مؤثر أو الاستيراد.", confirmDel: "هل أنت متأكد من حذف هذا المؤثر نهائياً؟", errName: "الاسم مطلوب", errUrl: "يجب أن يبدأ الرابط بـ https://", errPhotoSize: "حجم الصورة يجب أن لا يتجاوز 5MB", emptyOrders: "لا توجد طلبات حالياً.", exportBtn: "تصدير CSV", searchPlaceholder: "بحث بالاسم أو رقم الهاتف...", confirmDelOrder: "هل أنت متأكد من حذف هذا الطلب نهائياً؟" },
-    en: { title: "Sign In", sub: "Store Management Dashboard", email: "Email", pass: "Password", submit: "Sign In", orders: "Orders", creators: "Creators", logout: "Logout", ordersTitle: "Orders Log", creatorsTitle: "Creators Management", errAuth: "Invalid login credentials", errLock: "Too many attempts. Wait 60s", noticeConfig: "Supabase is not configured yet. Fill in config.js.", showPass: "Show password", hidePass: "Hide password", addCreator: "+ Add Creator", importBtn: "Import from influencers.js", editCreator: "Edit Creator", save: "Save", cancel: "Cancel", emptyCreators: "No creators yet. Add a creator or import from influencers.js.", confirmDel: "Are you sure you want to permanently delete this creator?", errName: "Name is required", errUrl: "URL must start with https://", errPhotoSize: "Image must be 5MB or less", emptyOrders: "No orders found.", exportBtn: "Export CSV", searchPlaceholder: "Search name or phone...", confirmDelOrder: "Are you sure you want to delete this order?" }
+    ar: { title: "تسجيل الدخول", sub: "لوحة تحكم إدارة المتجر", email: "البريد الإلكتروني", pass: "كلمة المرور", submit: "دخول", orders: "الطلبات", creators: "المؤثرون", products: "المنتجات", unban: "فك الحظر", logout: "خروج", ordersTitle: "سجل الطلبات", creatorsTitle: "إدارة المؤثرين", productsTitle: "إدارة المنتجات", unbanTitle: "حسابات تم فك حظرها", errAuth: "البيانات المدخلة غير صحيحة", errLock: "محاولات كثيرة. يرجى الانتظار دقيقة", noticeConfig: "لم يتم ضبط Supabase بعد. املأ ملف config.js.", showPass: "عرض كلمة المرور", hidePass: "إخفاء كلمة المرور", addCreator: "+ إضافة مؤثر", importBtn: "استيراد من influencers.js", editCreator: "تعديل مؤثر", addProduct: "+ إضافة منتج", editProduct: "تعديل منتج", addUnban: "+ إضافة صورة إثبات", editUnban: "تعديل صورة الإثبات", importUnbanBtn: "استيراد من المعرض الحالي", save: "حفظ", cancel: "إلغاء", emptyCreators: "لا يوجد مؤثرون حالياً. يمكنك إضافة مؤثر أو الاستيراد.", emptyProducts: "لا توجد منتجات حالياً. يمكنك إضافة منتج جديد.", emptyUnban: "لا توجد صور إثبات حالياً. يمكنك إضافة صورة جديدة أو الاستيراد من المعرض.", confirmDel: "هل أنت متأكد من حذف هذا المؤثر نهائياً؟", confirmDelProduct: "هل أنت متأكد من حذف هذا المنتج نهائياً؟", confirmDelUnban: "هل أنت متأكد من حذف هذه الصورة نهائياً؟", errName: "الاسم مطلوب", errNameAr: "الاسم بالعربية مطلوب", errNameEn: "الاسم بالإنجليزية مطلوب", errUrl: "يجب أن يبدأ الرابط بـ https://", errPhotoSize: "حجم الصورة يجب أن لا يتجاوز 5MB", errPhotoRequired: "يرجى اختيار صورة", emptyOrders: "لا توجد طلبات حالياً.", exportBtn: "تصدير CSV", searchPlaceholder: "بحث بالاسم أو رقم الهاتف...", searchProductPlaceholder: "بحث بالاسم...", searchUnbanPlaceholder: "بحث بالوصف...", inStock: "متوفر", outOfStock: "نفدت الكمية", visible: "ظاهر", hidden: "مخفي", confirmDelOrder: "هل أنت متأكد من حذف هذا الطلب نهائياً؟" },
+    en: { title: "Sign In", sub: "Store Management Dashboard", email: "Email", pass: "Password", submit: "Sign In", orders: "Orders", creators: "Creators", products: "Products", unban: "Unban Proofs", logout: "Logout", ordersTitle: "Orders Log", creatorsTitle: "Creators Management", productsTitle: "Products Management", unbanTitle: "Recovered Accounts Proofs", errAuth: "Invalid login credentials", errLock: "Too many attempts. Wait 60s", noticeConfig: "Supabase is not configured yet. Fill in config.js.", showPass: "Show password", hidePass: "Hide password", addCreator: "+ Add Creator", importBtn: "Import from influencers.js", editCreator: "Edit Creator", addProduct: "+ Add Product", editProduct: "Edit Product", addUnban: "+ Add Proof Photo", editUnban: "Edit Proof Photo", importUnbanBtn: "Import from Current Gallery", save: "Save", cancel: "Cancel", emptyCreators: "No creators yet. Add a creator or import from influencers.js.", emptyProducts: "No products found. You can add a new product.", emptyUnban: "No proof photos yet. You can add a new photo or import from gallery.", confirmDel: "Are you sure you want to permanently delete this creator?", confirmDelProduct: "Are you sure you want to permanently delete this product?", confirmDelUnban: "Are you sure you want to permanently delete this photo?", errName: "Name is required", errNameAr: "Arabic name is required", errNameEn: "English name is required", errUrl: "URL must start with https://", errPhotoSize: "Image must be 5MB or less", errPhotoRequired: "Please select an image file", emptyOrders: "No orders found.", exportBtn: "Export CSV", searchPlaceholder: "Search name or phone...", searchProductPlaceholder: "Search by name...", searchUnbanPlaceholder: "Search by caption...", inStock: "In Stock", outOfStock: "Sold Out", visible: "Visible", hidden: "Hidden", confirmDelOrder: "Are you sure you want to delete this order?" }
   };
 
   const el = id => document.getElementById(id);
@@ -19,13 +19,23 @@
     el('lbl-email').textContent = t.email; el('lbl-password').textContent = t.pass;
     const btnText = el('btn-login-submit').querySelector('.btn-text');
     if (btnText) btnText.textContent = t.submit;
-    el('tab-orders-label').textContent = t.orders; el('tab-creators-label').textContent = t.creators; el('btn-logout').textContent = t.logout;
+    el('tab-orders-label').textContent = t.orders; el('tab-creators-label').textContent = t.creators;
+    if (el('tab-products-label')) el('tab-products-label').textContent = t.products;
+    if (el('tab-unban-label')) el('tab-unban-label').textContent = t.unban;
+    el('btn-logout').textContent = t.logout;
     if (el('orders-title')) el('orders-title').textContent = t.ordersTitle;
     if (el('creators-title')) el('creators-title').textContent = t.creatorsTitle;
+    if (el('products-title')) el('products-title').textContent = t.productsTitle;
+    if (el('unban-title')) el('unban-title').textContent = t.unbanTitle;
     if (el('btn-add-creator')) el('btn-add-creator').textContent = t.addCreator;
+    if (el('btn-add-product')) el('btn-add-product').textContent = t.addProduct;
+    if (el('btn-add-unban')) el('btn-add-unban').textContent = t.addUnban;
     if (el('btn-import-creators')) el('btn-import-creators').textContent = t.importBtn;
+    if (el('btn-import-unban')) el('btn-import-unban').textContent = t.importUnbanBtn;
     if (el('btn-export-orders')) el('btn-export-orders').textContent = t.exportBtn;
     if (el('search-orders')) el('search-orders').placeholder = t.searchPlaceholder;
+    if (el('search-products')) el('search-products').placeholder = t.searchProductPlaceholder;
+    if (el('search-unban')) el('search-unban').placeholder = t.searchUnbanPlaceholder;
     const noticeEl = el('config-notice');
     if (isConfigPlaceholder) { noticeEl.textContent = t.noticeConfig; noticeEl.classList.remove('hidden'); }
     else { noticeEl.classList.add('hidden'); }
@@ -33,6 +43,8 @@
     el('btn-toggle-pwd').setAttribute('aria-label', isPass ? t.showPass : t.hidePass);
     if (typeof renderAdminCreators === 'function') renderAdminCreators();
     if (typeof renderAdminOrders === 'function') renderAdminOrders();
+    if (typeof renderAdminProducts === 'function') renderAdminProducts();
+    if (typeof renderAdminUnban === 'function') renderAdminUnban();
   }
 
   let ordersRefreshTimer = null;
@@ -67,6 +79,8 @@
     el('btn-logout').classList.add('hidden');
     el('orders-list').innerHTML = '';
     el('admin-creators-list').innerHTML = '';
+    if (el('admin-products-list')) el('admin-products-list').innerHTML = '';
+    if (el('admin-unban-list')) el('admin-unban-list').innerHTML = '';
   }
 
   function switchTab(name) {
@@ -77,8 +91,12 @@
     });
     el('tab-orders').classList.toggle('hidden', name !== 'orders');
     el('tab-creators').classList.toggle('hidden', name !== 'creators');
+    if (el('tab-products')) el('tab-products').classList.toggle('hidden', name !== 'products');
+    if (el('tab-unban')) el('tab-unban').classList.toggle('hidden', name !== 'unban');
     if (name === 'orders') loadOrders();
     if (name === 'creators') loadCreators();
+    if (name === 'products') loadProducts();
+    if (name === 'unban') loadUnbanPhotos();
   }
 
   function resetInactivityTimer() {
@@ -625,6 +643,627 @@
 
   el('btn-export-orders')?.addEventListener('click', exportOrdersCsv);
 
+  // -------------------------------------------------------------
+  // PRODUCTS MANAGEMENT
+  // -------------------------------------------------------------
+  let products = [], productCategoryFilter = 'all', productSearchQuery = '';
+  const productCatLabels = {
+    ar: { accounts: 'حسابات', social: 'سوشيال ميديا', whatsapp: 'واتساب', gaming: 'ألعاب', other: 'أخرى' },
+    en: { accounts: 'Accounts', social: 'Social', whatsapp: 'WhatsApp', gaming: 'Gaming', other: 'Other' }
+  };
+
+  function getProductPhotoUrl(path) {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    if (sb) {
+      const { data } = sb.storage.from('products').getPublicUrl(path);
+      return data ? data.publicUrl : path;
+    }
+    return path;
+  }
+
+  async function loadProducts() {
+    if (!sb) { renderAdminProducts(); return; }
+    try {
+      const { data, error } = await sb.from('products').select('*').order('sort_order', { ascending: true });
+      if (!error && Array.isArray(data)) products = data;
+    } catch (e) { console.error('Error loading products:', e); }
+    renderAdminProducts();
+  }
+
+  function renderAdminProducts() {
+    const container = el('admin-products-list');
+    if (!container) return;
+    const q = productSearchQuery.toLowerCase().trim();
+    const filtered = products.filter(p => {
+      const matchCat = productCategoryFilter === 'all' || (p.category || 'other') === productCategoryFilter;
+      const nameAr = (p.name_ar || '').toLowerCase();
+      const nameEn = (p.name_en || '').toLowerCase();
+      const badge = (p.badge || '').toLowerCase();
+      const matchSearch = !q || nameAr.includes(q) || nameEn.includes(q) || badge.includes(q);
+      return matchCat && matchSearch;
+    });
+
+    if (!filtered.length) {
+      container.innerHTML = `<div class="empty-state">${T[lang].emptyProducts}</div>`;
+      return;
+    }
+
+    const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const cats = productCatLabels[lang] || productCatLabels.en;
+
+    const rows = filtered.map((p, i) => {
+      const pUrl = getProductPhotoUrl(p.photo_path);
+      const thumb = pUrl ? `<img src="${encodeURI(pUrl)}" class="p-thumb" alt="${esc(p.name_en || p.name_ar)}">` : '<div class="p-thumb"></div>';
+      const displayName = lang === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar);
+      const catLabel = cats[p.category] || p.category || 'Other';
+      const priceStr = (p.price != null && p.price !== '') ? `<span dir="ltr">${p.price} MAD</span>` : '-';
+      const priceNote = lang === 'ar' ? (p.price_note_ar || '') : (p.price_note_en || '');
+      const badgeHtml = p.badge ? `<span class="badge-pill">${esc(p.badge)}</span>` : '';
+
+      return `<tr>
+        <td><div class="action-cell">
+          <button type="button" class="btn-reorder" onclick="window._admin.moveProduct(${i}, -1)" ${i === 0 ? 'disabled' : ''} aria-label="Up">▲</button>
+          <button type="button" class="btn-reorder" onclick="window._admin.moveProduct(${i}, 1)" ${i === filtered.length - 1 ? 'disabled' : ''} aria-label="Down">▼</button>
+        </div></td>
+        <td>${thumb}</td>
+        <td><strong>${esc(displayName)}</strong>${badgeHtml}</td>
+        <td><span class="category-badge">${esc(catLabel)}</span></td>
+        <td>${priceStr} ${priceNote ? `<small class="muted">(${esc(priceNote)})</small>` : ''}</td>
+        <td><button type="button" class="toggle-btn ${p.in_stock ? 'is-stock' : 'is-out'}" onclick="window._admin.toggleProductStock('${p.id}', ${p.in_stock})">${p.in_stock ? T[lang].inStock : T[lang].outOfStock}</button></td>
+        <td><button type="button" class="toggle-btn ${p.visible ? 'is-visible' : ''}" onclick="window._admin.toggleProductVisibility('${p.id}', ${p.visible})">${p.visible ? T[lang].visible : T[lang].hidden}</button></td>
+        <td><div class="action-cell">
+          <button type="button" class="ctrl-btn" onclick="window._admin.openProductModal('${p.id}')">${lang === 'ar' ? 'تعديل' : 'Edit'}</button>
+          <button type="button" class="ctrl-btn btn-danger" onclick="window._admin.deleteProduct('${p.id}', '${esc(p.photo_path || '')}')">${lang === 'ar' ? 'حذف' : 'Delete'}</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+
+    const cards = filtered.map((p, i) => {
+      const pUrl = getProductPhotoUrl(p.photo_path);
+      const thumb = pUrl ? `<img src="${encodeURI(pUrl)}" class="p-thumb" alt="${esc(p.name_en || p.name_ar)}">` : '<div class="p-thumb"></div>';
+      const displayName = lang === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar);
+      const catLabel = cats[p.category] || p.category || 'Other';
+      const priceStr = (p.price != null && p.price !== '') ? `<span dir="ltr">${p.price} MAD</span>` : '-';
+      const priceNote = lang === 'ar' ? (p.price_note_ar || '') : (p.price_note_en || '');
+      const badgeHtml = p.badge ? `<span class="badge-pill">${esc(p.badge)}</span>` : '';
+
+      return `<div class="product-admin-card">
+        <div class="card-top">${thumb}<div class="card-info">
+          <div><strong>${esc(displayName)}</strong>${badgeHtml}</div>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px;">
+            <span class="category-badge">${esc(catLabel)}</span>
+            <span>${priceStr} ${priceNote ? `<small class="muted">(${esc(priceNote)})</small>` : ''}</span>
+            <span class="stock-badge ${p.in_stock ? 'stock-in' : 'stock-out'}">${p.in_stock ? T[lang].inStock : T[lang].outOfStock}</span>
+          </div>
+        </div></div>
+        <div class="card-actions">
+          <button type="button" class="btn-reorder" onclick="window._admin.moveProduct(${i}, -1)" ${i === 0 ? 'disabled' : ''} aria-label="Up">▲</button>
+          <button type="button" class="btn-reorder" onclick="window._admin.moveProduct(${i}, 1)" ${i === filtered.length - 1 ? 'disabled' : ''} aria-label="Down">▼</button>
+          <button type="button" class="toggle-btn ${p.in_stock ? 'is-stock' : 'is-out'}" onclick="window._admin.toggleProductStock('${p.id}', ${p.in_stock})">${p.in_stock ? T[lang].inStock : T[lang].outOfStock}</button>
+          <button type="button" class="toggle-btn ${p.visible ? 'is-visible' : ''}" onclick="window._admin.toggleProductVisibility('${p.id}', ${p.visible})">${p.visible ? T[lang].visible : T[lang].hidden}</button>
+          <button type="button" class="ctrl-btn" onclick="window._admin.openProductModal('${p.id}')">${lang === 'ar' ? 'تعديل' : 'Edit'}</button>
+          <button type="button" class="ctrl-btn btn-danger" onclick="window._admin.deleteProduct('${p.id}', '${esc(p.photo_path || '')}')">${lang === 'ar' ? 'حذف' : 'Delete'}</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="products-table-wrap"><table class="products-table">
+        <thead><tr><th>${lang === 'ar' ? 'ترتيب' : 'Order'}</th><th>${lang === 'ar' ? 'صورة' : 'Photo'}</th><th>${lang === 'ar' ? 'الاسم' : 'Name'}</th><th>${lang === 'ar' ? 'الفئة' : 'Category'}</th><th>${lang === 'ar' ? 'السعر' : 'Price'}</th><th>${lang === 'ar' ? 'المخزون' : 'Stock'}</th><th>${lang === 'ar' ? 'الحالة' : 'Status'}</th><th>${lang === 'ar' ? 'إجراءات' : 'Actions'}</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+      <div class="products-mobile-cards">${cards}</div>
+    `;
+  }
+
+  async function moveProduct(idx, dir) {
+    const targetIdx = idx + dir;
+    if (targetIdx < 0 || targetIdx >= products.length || !sb) return;
+    const p1 = products[idx], p2 = products[targetIdx];
+    const s1 = p1.sort_order ?? idx, s2 = p2.sort_order ?? targetIdx;
+    const newS1 = s2 === s1 ? (dir > 0 ? s1 + 1 : s1 - 1) : s2;
+    const newS2 = s1;
+    try {
+      await Promise.all([
+        sb.from('products').update({ sort_order: newS1 }).eq('id', p1.id),
+        sb.from('products').update({ sort_order: newS2 }).eq('id', p2.id)
+      ]);
+      await loadProducts();
+    } catch (e) { console.error('Error reordering products:', e); }
+  }
+
+  async function toggleProductVisibility(id, cur) {
+    if (!sb) return;
+    try {
+      await sb.from('products').update({ visible: !cur }).eq('id', id);
+      await loadProducts();
+    } catch (e) { console.error('Error toggling product visibility:', e); }
+  }
+
+  async function toggleProductStock(id, cur) {
+    if (!sb) return;
+    try {
+      await sb.from('products').update({ in_stock: !cur }).eq('id', id);
+      await loadProducts();
+    } catch (e) { console.error('Error toggling product stock:', e); }
+  }
+
+  async function deleteProduct(id, photoPath) {
+    if (!confirm(T[lang].confirmDelProduct)) return;
+    if (!sb) return;
+    try {
+      if (photoPath && !photoPath.startsWith('http')) {
+        await sb.storage.from('products').remove([photoPath]);
+      }
+      await sb.from('products').delete().eq('id', id);
+      await loadProducts();
+    } catch (e) { console.error('Error deleting product:', e); }
+  }
+
+  function openProductModal(id = null) {
+    el('product-form').reset();
+    el('product-id').value = '';
+    el('product-photo-path').value = '';
+    el('err-p-name-ar').classList.add('hidden');
+    el('err-p-name-en').classList.add('hidden');
+    el('err-p-photo').classList.add('hidden');
+    el('p-photo-preview').classList.add('hidden');
+    el('p-preview-img').src = '';
+    el('p-in-stock').checked = true;
+    el('p-visible').checked = true;
+
+    if (id) {
+      const p = products.find(item => String(item.id) === String(id));
+      if (p) {
+        el('product-form-title').textContent = T[lang].editProduct;
+        el('product-id').value = p.id;
+        el('product-photo-path').value = p.photo_path || '';
+        el('p-category').value = p.category || 'accounts';
+        el('p-name-ar').value = p.name_ar || '';
+        el('p-name-en').value = p.name_en || '';
+        el('p-desc-ar').value = p.desc_ar || '';
+        el('p-desc-en').value = p.desc_en || '';
+        el('p-price').value = p.price != null ? p.price : '';
+        el('p-price-note-ar').value = p.price_note_ar || '';
+        el('p-price-note-en').value = p.price_note_en || '';
+        el('p-badge').value = p.badge || '';
+        el('p-in-stock').checked = p.in_stock !== false;
+        el('p-visible').checked = p.visible !== false;
+
+        const pUrl = getProductPhotoUrl(p.photo_path);
+        if (pUrl) {
+          el('p-preview-img').src = pUrl;
+          el('p-photo-preview').classList.remove('hidden');
+        }
+      }
+    } else {
+      el('product-form-title').textContent = T[lang].addProduct;
+    }
+    el('product-modal').classList.remove('hidden');
+  }
+
+  function closeProductModal() {
+    el('product-modal').classList.add('hidden');
+  }
+
+  el('p-photo-file')?.addEventListener('change', e => {
+    const file = e.target.files[0];
+    el('err-p-photo').classList.add('hidden');
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      el('err-p-photo').textContent = T[lang].errPhotoSize;
+      el('err-p-photo').classList.remove('hidden');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ev => {
+      el('p-preview-img').src = ev.target.result;
+      el('p-photo-preview').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  el('product-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const nameAr = el('p-name-ar').value.trim();
+    const nameEn = el('p-name-en').value.trim();
+    const file = el('p-photo-file').files[0];
+    let valid = true;
+
+    el('err-p-name-ar').classList.add('hidden');
+    el('err-p-name-en').classList.add('hidden');
+    el('err-p-photo').classList.add('hidden');
+
+    if (!nameAr) {
+      el('err-p-name-ar').textContent = T[lang].errNameAr;
+      el('err-p-name-ar').classList.remove('hidden');
+      valid = false;
+    }
+    if (!nameEn) {
+      el('err-p-name-en').textContent = T[lang].errNameEn;
+      el('err-p-name-en').classList.remove('hidden');
+      valid = false;
+    }
+    if (file && file.size > 5 * 1024 * 1024) {
+      el('err-p-photo').textContent = T[lang].errPhotoSize;
+      el('err-p-photo').classList.remove('hidden');
+      valid = false;
+    }
+    if (!valid || !sb) return;
+
+    const saveBtn = el('btn-save-product');
+    saveBtn.disabled = true;
+    saveBtn.querySelector('.btn-text').classList.add('hidden');
+    saveBtn.querySelector('.btn-spinner').classList.remove('hidden');
+
+    try {
+      let photoPath = el('product-photo-path').value;
+      if (file) {
+        const webpBlob = await resizeImageToWebP(file, 800);
+        const fileName = `prod_${Date.now()}_${Math.random().toString(36).slice(2, 7)}.webp`;
+        const { error: upErr } = await sb.storage.from('products').upload(fileName, webpBlob, { contentType: 'image/webp' });
+        if (upErr) throw upErr;
+        if (photoPath && !photoPath.startsWith('http')) {
+          await sb.storage.from('products').remove([photoPath]);
+        }
+        photoPath = fileName;
+      }
+
+      const id = el('product-id').value;
+      const rawPrice = el('p-price').value.trim();
+      const payload = {
+        category: el('p-category').value || 'accounts',
+        name_ar: nameAr,
+        name_en: nameEn,
+        desc_ar: el('p-desc-ar').value.trim() || null,
+        desc_en: el('p-desc-en').value.trim() || null,
+        price: rawPrice !== '' ? parseFloat(rawPrice) : null,
+        price_note_ar: el('p-price-note-ar').value.trim() || null,
+        price_note_en: el('p-price-note-en').value.trim() || null,
+        badge: el('p-badge').value.trim() || null,
+        in_stock: el('p-in-stock').checked,
+        visible: el('p-visible').checked,
+        photo_path: photoPath || null
+      };
+
+      if (id) {
+        const { error } = await sb.from('products').update(payload).eq('id', id);
+        if (error) throw error;
+      } else {
+        const maxSort = products.reduce((m, p) => Math.max(m, p.sort_order || 0), 0);
+        payload.sort_order = maxSort + 1;
+        const { error } = await sb.from('products').insert([payload]);
+        if (error) throw error;
+      }
+      closeProductModal();
+      await loadProducts();
+    } catch (err) {
+      console.error(err);
+      alert('Error saving product: ' + err.message);
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.querySelector('.btn-text').classList.remove('hidden');
+      saveBtn.querySelector('.btn-spinner').classList.add('hidden');
+    }
+  });
+
+  el('filter-product-category')?.addEventListener('change', e => {
+    productCategoryFilter = e.target.value;
+    renderAdminProducts();
+  });
+
+  el('search-products')?.addEventListener('input', e => {
+    productSearchQuery = e.target.value;
+    renderAdminProducts();
+  });
+
+  el('btn-add-product')?.addEventListener('click', () => openProductModal());
+  el('btn-close-product-modal')?.addEventListener('click', closeProductModal);
+  el('btn-cancel-product')?.addEventListener('click', closeProductModal);
+
+  // ===================== UNBAN PROOFS LOGIC =====================
+  let unbanPhotos = [];
+  let unbanSearchQuery = '';
+
+  function getUnbanPhotoUrl(path) {
+    if (!path) return '';
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/') || path.startsWith('anas/')) return path;
+    if (!sb) return path;
+    const { data } = sb.storage.from('unban').getPublicUrl(path);
+    return data?.publicUrl || path;
+  }
+
+  async function loadUnbanPhotos() {
+    if (!sb) { renderAdminUnban(); return; }
+    try {
+      const { data, error } = await sb
+        .from('recovered_accounts')
+        .select('*')
+        .order('sort_order', { ascending: true })
+        .order('created_at', { ascending: false });
+      if (!error && Array.isArray(data)) unbanPhotos = data;
+    } catch (e) {
+      console.error('Error loading unban photos:', e);
+    }
+    renderAdminUnban();
+  }
+
+  function renderAdminUnban() {
+    const container = el('admin-unban-list');
+    if (!container) return;
+    const q = unbanSearchQuery.toLowerCase().trim();
+    const filtered = unbanPhotos.filter(u => {
+      const capAr = (u.caption_ar || '').toLowerCase();
+      const capEn = (u.caption_en || '').toLowerCase();
+      return !q || capAr.includes(q) || capEn.includes(q);
+    });
+
+    if (!filtered.length) {
+      container.innerHTML = `<div class="empty-state">${T[lang].emptyUnban}</div>`;
+      return;
+    }
+
+    const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    const rows = filtered.map((u, i) => {
+      const uUrl = getUnbanPhotoUrl(u.photo_path);
+      const thumb = uUrl ? `<img src="${encodeURI(uUrl)}" class="unban-thumb" alt="${esc(u.caption_en || u.caption_ar || 'proof')}">` : '<div class="unban-thumb"></div>';
+      const cap = lang === 'ar' ? (u.caption_ar || u.caption_en || '-') : (u.caption_en || u.caption_ar || '-');
+
+      return `<tr>
+        <td><div class="action-cell">
+          <button type="button" class="btn-reorder" onclick="window._admin.moveUnbanPhoto(${i}, -1)" ${i === 0 ? 'disabled' : ''} aria-label="Up">▲</button>
+          <button type="button" class="btn-reorder" onclick="window._admin.moveUnbanPhoto(${i}, 1)" ${i === filtered.length - 1 ? 'disabled' : ''} aria-label="Down">▼</button>
+        </div></td>
+        <td>${thumb}</td>
+        <td><strong>${esc(cap)}</strong></td>
+        <td><button type="button" class="toggle-btn ${u.visible ? 'is-visible' : ''}" onclick="window._admin.toggleUnbanVisibility('${u.id}', ${u.visible})">${u.visible ? T[lang].visible : T[lang].hidden}</button></td>
+        <td><div class="action-cell">
+          <button type="button" class="ctrl-btn" onclick="window._admin.openUnbanModal('${u.id}')">${lang === 'ar' ? 'تعديل' : 'Edit'}</button>
+          <button type="button" class="ctrl-btn btn-danger" onclick="window._admin.deleteUnbanPhoto('${u.id}', '${esc(u.photo_path || '')}')">${lang === 'ar' ? 'حذف' : 'Delete'}</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+
+    const cards = filtered.map((u, i) => {
+      const uUrl = getUnbanPhotoUrl(u.photo_path);
+      const thumb = uUrl ? `<img src="${encodeURI(uUrl)}" class="unban-thumb" alt="${esc(u.caption_en || u.caption_ar || 'proof')}">` : '<div class="unban-thumb"></div>';
+      const cap = lang === 'ar' ? (u.caption_ar || u.caption_en || '-') : (u.caption_en || u.caption_ar || '-');
+
+      return `<div class="unban-admin-card">
+        <div class="card-top">${thumb}<div class="card-info">
+          <div><strong>${esc(cap)}</strong></div>
+          <div style="margin-top:4px;">
+            <button type="button" class="toggle-btn ${u.visible ? 'is-visible' : ''}" onclick="window._admin.toggleUnbanVisibility('${u.id}', ${u.visible})">${u.visible ? T[lang].visible : T[lang].hidden}</button>
+          </div>
+        </div></div>
+        <div class="card-actions">
+          <button type="button" class="btn-reorder" onclick="window._admin.moveUnbanPhoto(${i}, -1)" ${i === 0 ? 'disabled' : ''} aria-label="Up">▲</button>
+          <button type="button" class="btn-reorder" onclick="window._admin.moveUnbanPhoto(${i}, 1)" ${i === filtered.length - 1 ? 'disabled' : ''} aria-label="Down">▼</button>
+          <button type="button" class="ctrl-btn" onclick="window._admin.openUnbanModal('${u.id}')">${lang === 'ar' ? 'تعديل' : 'Edit'}</button>
+          <button type="button" class="ctrl-btn btn-danger" onclick="window._admin.deleteUnbanPhoto('${u.id}', '${esc(u.photo_path || '')}')">${lang === 'ar' ? 'حذف' : 'Delete'}</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="unban-table-wrap"><table class="unban-table">
+        <thead><tr><th>${lang === 'ar' ? 'ترتيب' : 'Order'}</th><th>${lang === 'ar' ? 'صورة' : 'Photo'}</th><th>${lang === 'ar' ? 'الوصف' : 'Caption'}</th><th>${lang === 'ar' ? 'الحالة' : 'Status'}</th><th>${lang === 'ar' ? 'إجراءات' : 'Actions'}</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+      <div class="unban-mobile-cards">${cards}</div>
+    `;
+  }
+
+  async function moveUnbanPhoto(idx, dir) {
+    const targetIdx = idx + dir;
+    if (targetIdx < 0 || targetIdx >= unbanPhotos.length || !sb) return;
+    const u1 = unbanPhotos[idx], u2 = unbanPhotos[targetIdx];
+    const s1 = u1.sort_order ?? idx, s2 = u2.sort_order ?? targetIdx;
+    const newS1 = s2 === s1 ? (dir > 0 ? s1 + 1 : s1 - 1) : s2;
+    const newS2 = s1;
+    try {
+      await Promise.all([
+        sb.from('recovered_accounts').update({ sort_order: newS1 }).eq('id', u1.id),
+        sb.from('recovered_accounts').update({ sort_order: newS2 }).eq('id', u2.id)
+      ]);
+      await loadUnbanPhotos();
+    } catch (e) { console.error('Error reordering unban photos:', e); }
+  }
+
+  async function toggleUnbanVisibility(id, cur) {
+    if (!sb) return;
+    try {
+      await sb.from('recovered_accounts').update({ visible: !cur }).eq('id', id);
+      await loadUnbanPhotos();
+    } catch (e) { console.error('Error toggling unban visibility:', e); }
+  }
+
+  async function deleteUnbanPhoto(id, photoPath) {
+    if (!confirm(T[lang].confirmDelUnban)) return;
+    if (!sb) return;
+    try {
+      if (photoPath && !photoPath.startsWith('http') && !photoPath.startsWith('anas/')) {
+        await sb.storage.from('unban').remove([photoPath]);
+      }
+      await sb.from('recovered_accounts').delete().eq('id', id);
+      await loadUnbanPhotos();
+    } catch (e) { console.error('Error deleting unban photo:', e); }
+  }
+
+  function openUnbanModal(id = null) {
+    el('unban-form').reset();
+    el('u-id').value = '';
+    el('u-photo-path').value = '';
+    el('err-u-photo').classList.add('hidden');
+    el('u-photo-preview').classList.add('hidden');
+    el('u-preview-img').src = '';
+    el('u-visible').checked = true;
+
+    if (id) {
+      const u = unbanPhotos.find(item => String(item.id) === String(id));
+      if (u) {
+        el('unban-form-title').textContent = T[lang].editUnban;
+        el('u-id').value = u.id;
+        el('u-photo-path').value = u.photo_path || '';
+        el('u-caption-ar').value = u.caption_ar || '';
+        el('u-caption-en').value = u.caption_en || '';
+        el('u-visible').checked = u.visible !== false;
+
+        const uUrl = getUnbanPhotoUrl(u.photo_path);
+        if (uUrl) {
+          el('u-preview-img').src = uUrl;
+          el('u-photo-preview').classList.remove('hidden');
+        }
+      }
+    } else {
+      el('unban-form-title').textContent = T[lang].addUnban;
+    }
+    el('unban-modal').classList.remove('hidden');
+  }
+
+  function closeUnbanModal() {
+    el('unban-modal').classList.add('hidden');
+  }
+
+  async function importFromUnbanGallery() {
+    const statusEl = el('unban-import-status');
+    const sourceGallery = (typeof UNBAN_GALLERY !== 'undefined' && Array.isArray(UNBAN_GALLERY))
+      ? UNBAN_GALLERY : (window.UNBAN_GALLERY || []);
+    if (!sourceGallery.length) {
+      statusEl.textContent = lang === 'ar' ? 'لا توجد صور في ملف unban-gallery.js' : 'No photos found in unban-gallery.js';
+      statusEl.classList.remove('hidden');
+      return;
+    }
+    if (!sb) {
+      statusEl.textContent = T[lang].noticeConfig;
+      statusEl.classList.remove('hidden');
+      return;
+    }
+    statusEl.textContent = lang === 'ar' ? 'جارٍ الاستيراد...' : 'Importing...';
+    statusEl.classList.remove('hidden');
+    try {
+      const { data: existing } = await sb.from('recovered_accounts').select('photo_path');
+      const existingPaths = new Set((existing || []).map(r => r.photo_path));
+      let importedCount = 0;
+      for (let i = 0; i < sourceGallery.length; i++) {
+        const item = sourceGallery[i];
+        if (item.photo && !existingPaths.has(item.photo)) {
+          const { error } = await sb.from('recovered_accounts').insert([{
+            caption_ar: item.caption_ar || null,
+            caption_en: item.caption_en || null,
+            photo_path: item.photo,
+            visible: true,
+            sort_order: i + 1
+          }]);
+          if (!error) importedCount++;
+        }
+      }
+      statusEl.textContent = lang === 'ar'
+        ? `تم استيراد ${importedCount} صورة بنجاح.`
+        : `Successfully imported ${importedCount} photos.`;
+      await loadUnbanPhotos();
+    } catch (e) {
+      console.error(e);
+      statusEl.textContent = 'Error: ' + e.message;
+    }
+  }
+
+  el('u-photo-file')?.addEventListener('change', e => {
+    const file = e.target.files[0];
+    el('err-u-photo').classList.add('hidden');
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      el('err-u-photo').textContent = T[lang].errPhotoSize;
+      el('err-u-photo').classList.remove('hidden');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ev => {
+      el('u-preview-img').src = ev.target.result;
+      el('u-photo-preview').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  el('unban-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    el('err-u-photo').classList.add('hidden');
+
+    const file = el('u-photo-file').files[0];
+    const existingPhoto = el('u-photo-path').value;
+    let valid = true;
+
+    if (!file && !existingPhoto) {
+      el('err-u-photo').textContent = T[lang].errPhotoRequired;
+      el('err-u-photo').classList.remove('hidden');
+      valid = false;
+    }
+    if (file && file.size > 5 * 1024 * 1024) {
+      el('err-u-photo').textContent = T[lang].errPhotoSize;
+      el('err-u-photo').classList.remove('hidden');
+      valid = false;
+    }
+    if (!valid || !sb) return;
+
+    const saveBtn = el('btn-save-unban');
+    saveBtn.disabled = true;
+    saveBtn.querySelector('.btn-text').classList.add('hidden');
+    saveBtn.querySelector('.btn-spinner').classList.remove('hidden');
+
+    try {
+      let photoPath = existingPhoto;
+      if (file) {
+        const webpBlob = await resizeImageToWebP(file, 1000);
+        const fileName = `unban_${Date.now()}_${Math.random().toString(36).slice(2, 7)}.webp`;
+        const { error: upErr } = await sb.storage.from('unban').upload(fileName, webpBlob, { contentType: 'image/webp' });
+        if (upErr) throw upErr;
+        if (photoPath && !photoPath.startsWith('http') && !photoPath.startsWith('anas/')) {
+          await sb.storage.from('unban').remove([photoPath]);
+        }
+        photoPath = fileName;
+      }
+
+      const id = el('u-id').value;
+      const payload = {
+        caption_ar: el('u-caption-ar').value.trim() || null,
+        caption_en: el('u-caption-en').value.trim() || null,
+        visible: el('u-visible').checked,
+        photo_path: photoPath
+      };
+
+      if (id) {
+        const { error } = await sb.from('recovered_accounts').update(payload).eq('id', id);
+        if (error) throw error;
+      } else {
+        const maxSort = unbanPhotos.reduce((m, u) => Math.max(m, u.sort_order || 0), 0);
+        payload.sort_order = maxSort + 1;
+        const { error } = await sb.from('recovered_accounts').insert([payload]);
+        if (error) throw error;
+      }
+      closeUnbanModal();
+      await loadUnbanPhotos();
+    } catch (err) {
+      console.error(err);
+      alert('Error saving unban photo: ' + err.message);
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.querySelector('.btn-text').classList.remove('hidden');
+      saveBtn.querySelector('.btn-spinner').classList.add('hidden');
+    }
+  });
+
+  el('search-unban')?.addEventListener('input', e => {
+    unbanSearchQuery = e.target.value;
+    renderAdminUnban();
+  });
+
+  el('btn-add-unban')?.addEventListener('click', () => openUnbanModal());
+  el('btn-close-unban-modal')?.addEventListener('click', closeUnbanModal);
+  el('btn-cancel-unban')?.addEventListener('click', closeUnbanModal);
+  el('btn-import-unban')?.addEventListener('click', importFromUnbanGallery);
+
   el('btn-logout').addEventListener('click', async () => {
     try { if (sb) await sb.auth.signOut(); } catch (e) {}
     showLogin();
@@ -643,9 +1282,17 @@
     openCreatorModal, closeCreatorModal, toggleVisibility, deleteCreator, moveCreator,
     importFromInfluencers, resizeImageToWebP,
     loadOrders, renderAdminOrders, updateOrderStatus, updateOrderNote, deleteOrder, exportOrdersCsv,
+    loadProducts, renderAdminProducts, openProductModal, closeProductModal,
+    toggleProductVisibility, toggleProductStock, deleteProduct, moveProduct,
+    loadUnbanPhotos, renderAdminUnban, openUnbanModal, closeUnbanModal,
+    toggleUnbanVisibility, deleteUnbanPhoto, moveUnbanPhoto, importFromUnbanGallery,
     get creators() { return creators; },
     set creators(val) { creators = val; },
     get orders() { return orders; },
-    set orders(val) { orders = val; }
+    set orders(val) { orders = val; },
+    get products() { return products; },
+    set products(val) { products = val; },
+    get unbanPhotos() { return unbanPhotos; },
+    set unbanPhotos(val) { unbanPhotos = val; }
   };
 })();

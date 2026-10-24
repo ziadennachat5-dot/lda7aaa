@@ -60,6 +60,12 @@
           <button id="tab-creators-btn" class="tab-btn" role="tab" aria-selected="false" data-tab="creators">
             <span id="tab-creators-label">المؤثرون</span>
           </button>
+          <button id="tab-products-btn" class="tab-btn" role="tab" aria-selected="false" data-tab="products">
+            <span id="tab-products-label">المنتجات</span>
+          </button>
+          <button id="tab-unban-btn" class="tab-btn" role="tab" aria-selected="false" data-tab="unban">
+            <span id="tab-unban-label">فك الحظر</span>
+          </button>
         </nav>
         <div id="tab-orders" class="tab-content" role="tabpanel">
           <div class="panel-header">
@@ -94,6 +100,46 @@
           </div>
           <div id="creators-import-status" class="notice-box hidden" role="status"></div>
           <div id="admin-creators-list" class="creators-container"></div>
+        </div>
+        <div id="tab-products" class="tab-content hidden" role="tabpanel">
+          <div class="panel-header">
+            <h2 id="products-title">إدارة المنتجات</h2>
+            <div class="panel-actions">
+              <button id="btn-add-product" type="button" class="btn-action">+ إضافة منتج</button>
+            </div>
+          </div>
+          <div class="products-toolbar">
+            <div class="search-box">
+              <input type="text" id="search-products" placeholder="بحث بالاسم...">
+            </div>
+            <div class="filter-box">
+              <select id="filter-product-category" class="form-select">
+                <option value="all">جميع الفئات</option>
+                <option value="accounts">حسابات (Accounts)</option>
+                <option value="social">سوشيال ميديا (Social)</option>
+                <option value="whatsapp">واتساب (WhatsApp)</option>
+                <option value="gaming">ألعاب (Gaming)</option>
+                <option value="other">أخرى (Other)</option>
+              </select>
+            </div>
+          </div>
+          <div id="admin-products-list" class="products-container"></div>
+        </div>
+        <div id="tab-unban" class="tab-content hidden" role="tabpanel">
+          <div class="panel-header">
+            <h2 id="unban-title">حسابات تم فك حظرها</h2>
+            <div class="panel-actions">
+              <button id="btn-add-unban" type="button" class="btn-action">+ إضافة صورة إثبات</button>
+              <button id="btn-import-unban" type="button" class="btn-action btn-outline">استيراد من المعرض الحالي</button>
+            </div>
+          </div>
+          <div id="unban-import-status" class="notice-box hidden" role="status"></div>
+          <div class="unban-toolbar">
+            <div class="search-box">
+              <input type="text" id="search-unban" placeholder="بحث بالوصف...">
+            </div>
+          </div>
+          <div id="admin-unban-list" class="unban-container"></div>
         </div>
       </section>
 
@@ -162,10 +208,141 @@
           </form>
         </div>
       </div>
+
+      <!-- Product Modal / Form -->
+      <div id="product-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3 id="product-form-title">إضافة منتج جديد</h3>
+            <button id="btn-close-product-modal" type="button" class="btn-icon" aria-label="Close">✕</button>
+          </div>
+          <form id="product-form" novalidate>
+            <input type="hidden" id="product-id">
+            <input type="hidden" id="product-photo-path">
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="p-category" id="lbl-p-category">الفئة *</label>
+                <select id="p-category" class="form-select">
+                  <option value="accounts">حسابات (Accounts)</option>
+                  <option value="social">سوشيال ميديا (Social)</option>
+                  <option value="whatsapp">واتساب (WhatsApp)</option>
+                  <option value="gaming">ألعاب (Gaming)</option>
+                  <option value="other">أخرى (Other)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="p-name-ar" id="lbl-p-name-ar">الاسم (عربي) *</label>
+                <input type="text" id="p-name-ar" required placeholder="مثال: نتفلكس 4K">
+                <span id="err-p-name-ar" class="field-error hidden"></span>
+              </div>
+              <div class="form-group">
+                <label for="p-name-en" id="lbl-p-name-en">الاسم (إنجليزي) *</label>
+                <input type="text" id="p-name-en" dir="ltr" required placeholder="e.g. Netflix 4K">
+                <span id="err-p-name-en" class="field-error hidden"></span>
+              </div>
+              <div class="form-group">
+                <label for="p-desc-ar" id="lbl-p-desc-ar">الوصف (عربي)</label>
+                <textarea id="p-desc-ar" class="form-textarea" placeholder="وصف الخدمة أو المنتج..."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="p-desc-en" id="lbl-p-desc-en">الوصف (إنجليزي)</label>
+                <textarea id="p-desc-en" class="form-textarea" dir="ltr" placeholder="Product description..."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="p-price" id="lbl-p-price">السعر (MAD)</label>
+                <input type="number" id="p-price" dir="ltr" step="any" min="0" placeholder="49">
+              </div>
+              <div class="form-group">
+                <label for="p-badge" id="lbl-p-badge">شارة مميزة (Badge)</label>
+                <input type="text" id="p-badge" placeholder="مثال: Popular أو الأكثر طلباً">
+              </div>
+              <div class="form-group">
+                <label for="p-price-note-ar" id="lbl-p-price-note-ar">ملاحظة السعر (عربي)</label>
+                <input type="text" id="p-price-note-ar" placeholder="مثال: شهرياً">
+              </div>
+              <div class="form-group">
+                <label for="p-price-note-en" id="lbl-p-price-note-en">ملاحظة السعر (إنجليزي)</label>
+                <input type="text" id="p-price-note-en" dir="ltr" placeholder="e.g. /month">
+              </div>
+              <div class="form-group full-width">
+                <label for="p-photo-file" id="lbl-p-photo">الصورة (JPG, PNG, WebP &le; 5MB)</label>
+                <input type="file" id="p-photo-file" accept="image/jpeg,image/png,image/webp">
+                <span id="err-p-photo" class="field-error hidden"></span>
+                <div id="p-photo-preview" class="photo-preview-wrap hidden">
+                  <img id="p-preview-img" src="" alt="Preview">
+                </div>
+              </div>
+              <div class="form-group full-width checks-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="p-in-stock" checked>
+                  <span id="lbl-p-in-stock">متوفر في المخزون (In Stock)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="p-visible" checked>
+                  <span id="lbl-p-visible">ظاهر للزوار (Visible)</span>
+                </label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="btn-cancel-product" class="ctrl-btn">إلغاء</button>
+              <button type="submit" id="btn-save-product" class="btn-primary">
+                <span class="btn-text">حفظ</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Unban Account Proof Modal / Form -->
+      <div id="unban-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3 id="unban-form-title">إضافة صورة حساب تم استرجاعه</h3>
+            <button id="btn-close-unban-modal" type="button" class="btn-icon" aria-label="Close">✕</button>
+          </div>
+          <form id="unban-form" novalidate>
+            <input type="hidden" id="u-id">
+            <input type="hidden" id="u-photo-path">
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="u-caption-ar" id="lbl-u-caption-ar">الوصف (عربي)</label>
+                <input type="text" id="u-caption-ar" placeholder="مثال: استرجاع حساب انستغرام تجاري بنجاح">
+              </div>
+              <div class="form-group full-width">
+                <label for="u-caption-en" id="lbl-u-caption-en">الوصف (إنجليزي)</label>
+                <input type="text" id="u-caption-en" dir="ltr" placeholder="e.g. Instagram account successfully recovered">
+              </div>
+              <div class="form-group full-width">
+                <label for="u-photo-file" id="lbl-u-photo">الصورة * (JPG, PNG, WebP &le; 5MB)</label>
+                <input type="file" id="u-photo-file" accept="image/jpeg,image/png,image/webp">
+                <span id="err-u-photo" class="field-error hidden"></span>
+                <div id="u-photo-preview" class="photo-preview-wrap is-wide hidden">
+                  <img id="u-preview-img" src="" alt="Preview">
+                </div>
+              </div>
+              <div class="form-group full-width checks-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="u-visible" checked>
+                  <span id="lbl-u-visible">ظاهر للزوار (Visible)</span>
+                </label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="btn-cancel-unban" class="ctrl-btn">إلغاء</button>
+              <button type="submit" id="btn-save-unban" class="btn-primary">
+                <span class="btn-text">حفظ</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </main>
   </div>
 
   <script src="/influencers.js"></script>
+  <script src="/unban-gallery.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
   <script src="/config.js"></script>
   <script src="/admin/admin.js" defer></script>

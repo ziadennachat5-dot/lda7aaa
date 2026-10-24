@@ -32,6 +32,7 @@ const TRANSLATIONS = {
       pricing: "الأسعار",
       unban: "فك الحظر",
       accounts: "الحسابات",
+      products: "المنتجات",
       reviews: "آراء العملاء",
       contact: "تواصل معنا",
       orderNow: "اطلب الآن",
@@ -127,6 +128,21 @@ const TRANSLATIONS = {
       tabFb: "فيسبوك",
       popularBadge: "شائع",
       orderBtn: "اطلب"
+    },
+    products: {
+      badge: "منتجات واشتراكات حصرية",
+      title: "المنتجات الرقمية",
+      subtitle: "اكتشف أحدث العروض والخدمات المتاحة للتفعيل الفوري",
+      orderBtn: "اطلب الآن",
+      soldOut: "نفدت الكمية",
+      outOfStockBtn: "غير متوفر حالياً",
+      filterAll: "الكل",
+      filterAccounts: "حسابات",
+      filterSocial: "سوشيال ميديا",
+      filterWhatsapp: "واتساب",
+      filterGaming: "ألعاب",
+      filterOther: "أخرى",
+      currency: "درهم"
     },
     accounts: {
       badge: "اشتراكات أصلية مفعلة",
@@ -375,6 +391,7 @@ const TRANSLATIONS = {
       pricing: "Pricing",
       unban: "Unban",
       accounts: "Accounts",
+      products: "Products",
       reviews: "Reviews",
       contact: "Contact",
       orderNow: "Order Now",
@@ -470,6 +487,21 @@ const TRANSLATIONS = {
       tabFb: "Facebook",
       popularBadge: "Popular",
       orderBtn: "Order"
+    },
+    products: {
+      badge: "Exclusive Products & Subscriptions",
+      title: "Digital Products",
+      subtitle: "Discover the latest offers and services ready for instant activation",
+      orderBtn: "Order Now",
+      soldOut: "Sold Out",
+      outOfStockBtn: "Out of Stock",
+      filterAll: "All",
+      filterAccounts: "Accounts",
+      filterSocial: "Social",
+      filterWhatsapp: "WhatsApp",
+      filterGaming: "Gaming",
+      filterOther: "Other",
+      currency: "MAD"
     },
     accounts: {
       badge: "Official Subscriptions",
