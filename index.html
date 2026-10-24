@@ -551,7 +551,7 @@
         <a href="#pricing" class="nav-link" data-i18n="nav.pricing">الأسعار</a>
         <a href="#unban" class="nav-link" data-i18n="nav.unban">فك الحظر</a>
         <a href="#products" class="nav-link" data-i18n="nav.products">المنتجات</a>
-        <a href="/collaborations" class="nav-link" data-i18n="nav.creators">Creators</a>
+        <a href="#creators" class="nav-link" data-i18n="nav.creators">Creators</a>
         <a href="#testimonials" class="nav-link" data-i18n="nav.reviews">آراء العملاء</a>
         <a href="#contact" class="nav-link" data-i18n="nav.contact">تواصل معنا</a>
       </nav>
@@ -586,7 +586,7 @@
       <a href="#pricing" class="drawer-nav-link" data-i18n="nav.pricing">الأسعار <span>→</span></a>
       <a href="#unban" class="drawer-nav-link" data-i18n="nav.unban">فك الحظر <span>→</span></a>
       <a href="#products" class="drawer-nav-link" data-i18n="nav.products">المنتجات <span>→</span></a>
-      <a href="/collaborations" class="drawer-nav-link" data-i18n="nav.creators">Creators <span>→</span></a>
+      <a href="#creators" class="drawer-nav-link" data-i18n="nav.creators">Creators <span>→</span></a>
       <a href="#testimonials" class="drawer-nav-link" data-i18n="nav.reviews">آراء العملاء <span>→</span></a>
       <a href="#contact" class="drawer-nav-link" data-i18n="nav.contact">تواصل معنا <span>→</span></a>
       <a href="#order-form" class="drawer-nav-link" data-i18n="nav.orderNow">اطلب الآن <span>→</span></a>
@@ -839,17 +839,15 @@
         </div>
       </div>
     </section>
-    <!-- Creators Teaser (populated by app.js, hidden if no creators) -->
-    <section id="creators-teaser" class="section" style="display: none;">
-      <div class="container flex-col" style="align-items: center; text-align: center;">
+    <!-- Creators Section (populated by app.js, hidden if no creators) -->
+    <section id="creators" class="section" style="display: none;">
+      <div class="container flex-col">
         <span class="badge" data-i18n="creators.badge">التعاونات</span>
         <h2 class="section-title" data-i18n="creators.title">المؤثرون الذين تعاونا معهم</h2>
         <p class="body-text" data-i18n="creators.subtitle">نفتخر بالتعاون مع صناع محتوى وشخصيات معروفة في المغرب والعالم العربي.</p>
-        <div id="creators-teaser-avatars" class="teaser-avatars"></div>
-        <a href="/collaborations" class="btn btn-primary teaser-view-all" id="teaser-view-all-btn">
-          <span data-i18n="creators.viewAll">عرض كل المؤثرين</span>
-          <svg class="teaser-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
+        <ul id="creators-grid" class="collab-grid" style="margin-top: 24px;" aria-live="polite">
+          <!-- Rendered dynamically by app.js -->
+        </ul>
       </div>
     </section>
 
@@ -986,7 +984,7 @@
             <a href="#pricing" class="micro-text" data-i18n="nav.pricing">الأسعار</a>
             <a href="#unban" class="micro-text" data-i18n="nav.unban">فك الحظر</a>
             <a href="#products" class="micro-text" data-i18n="nav.products">المنتجات</a>
-            <a href="/collaborations" class="micro-text" data-i18n="nav.creators">Creators</a>
+            <a href="#creators" class="micro-text" data-i18n="nav.creators">Creators</a>
             <a href="#whatsapp-sec" class="micro-text" data-i18n="nav.whatsapp">واتساب</a>
             <a href="#gaming" class="micro-text" data-i18n="nav.gaming">ألعاب</a>
             <a href="#order-form" class="micro-text" data-i18n="nav.orderNow">اطلب الآن</a>

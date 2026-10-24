@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderWhyUs();
     renderStats();
     renderTestimonials();
-    renderCreatorsTeaser();
+    renderCreators();
     renderPaymentChips();
     renderUnbanSection();
     initUnbanLightbox();
@@ -1424,47 +1424,123 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dots) requestAnimationFrame(updatePosition);
   }
 
-  // Render Creators Teaser (overlapping avatars + CTA link)
-  async function renderCreatorsTeaser() {
-    const section = document.getElementById('creators-teaser');
-    const box = document.getElementById('creators-teaser-avatars');
-    if (!section || !box) return;
+  // Render Full Creators Section
+  let publicCreators = null;
 
+  async function loadPublicCreators() {
     let items = [];
     const hasSb = window.SUPABASE_URL && !window.SUPABASE_URL.includes('your-project') &&
       window.SUPABASE_ANON_KEY && !window.SUPABASE_ANON_KEY.includes('your-anon-key');
-    if (hasSb && window.supabase) {
+
+    if (hasSb && (sbClient || window.supabase)) {
       try {
-        if (!window.dla7aSupabase) {
-          window.dla7aSupabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
-        }
-        const { data, error } = await window.dla7aSupabase
-          .from('creators').select('photo_path').eq('visible', true)
-          .order('sort_order', { ascending: true });
+        const client = sbClient || (window.dla7aSupabase || window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY));
+        const { data, error } = await client
+          .from('creators')
+          .select('*')
+          .eq('visible', true)
+          .order('sort_order', { ascending: true })
+          .order('created_at', { ascending: false });
+
         if (!error && Array.isArray(data) && data.length > 0) {
           items = data.map(c => {
-            let p = c.photo_path || '';
-            if (p && !p.startsWith('http')) {
-              const { data: pub } = window.dla7aSupabase.storage.from('creators').getPublicUrl(p);
-              p = pub ? pub.publicUrl : p;
+            let photoUrl = c.photo_path || '';
+            if (photoUrl && !photoUrl.startsWith('http') && !photoUrl.startsWith('/')) {
+              const { data: pub } = client.storage.from('creators').getPublicUrl(photoUrl);
+              photoUrl = pub ? pub.publicUrl : photoUrl;
             }
-            return p;
+            return {
+              name: c.name || '',
+              handle: c.handle || '',
+              platform: (c.platform || 'instagram').toLowerCase(),
+              photo: photoUrl,
+              followers: c.followers || '',
+              url: c.url || ''
+            };
           });
         }
-      } catch (e) {}
+      } catch (e) {
+        console.warn('Supabase creators fetch failed:', e);
+      }
     }
-    if (!items.length && typeof INFLUENCERS !== 'undefined' && Array.isArray(INFLUENCERS)) {
-      items = INFLUENCERS.filter(i => !i.hidden).map(i => i.photo || '');
-    }
-    if (!items.length) { section.style.display = 'none'; return; }
 
-    const max = 5;
-    const shown = items.slice(0, max);
-    const rest = items.length - max;
-    box.innerHTML = shown.map(src =>
-      `<img src="${encodeURI(src)}" alt="" loading="lazy" class="teaser-avatar" width="48" height="48">`
-    ).join('') + (rest > 0 ? `<span class="teaser-more" dir="ltr">+${rest}</span>` : '');
-    section.style.display = '';
+    if (!items.length && typeof INFLUENCERS !== 'undefined' && Array.isArray(INFLUENCERS)) {
+      items = INFLUENCERS.filter(inf => !inf.hidden).map(inf => {
+        let photo = inf.photo || '';
+        if (photo && !photo.startsWith('http') && !photo.startsWith('/')) {
+          photo = '/' + photo;
+        }
+        return {
+          name: inf.name || '',
+          handle: inf.handle || '',
+          platform: (inf.platform || 'instagram').toLowerCase(),
+          photo: photo,
+          followers: inf.followers || '',
+          url: inf.url || ''
+        };
+      });
+    }
+
+    publicCreators = items;
+    return items;
+  }
+
+  async function renderCreators() {
+    const gridEl = document.getElementById('creators-grid');
+    const section = document.getElementById('creators') || document.getElementById('creators-teaser');
+    if (!gridEl && !section) return;
+
+    if (publicCreators === null) {
+      await loadPublicCreators();
+    }
+
+    if (!publicCreators || !publicCreators.length) {
+      if (section) section.style.display = 'none';
+      return;
+    }
+
+    if (section) section.style.display = '';
+    if (!gridEl) return;
+
+    const ICONS = {
+      instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>',
+      tiktok: '<svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2-1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.49 6.27 6.27 0 0 0 1.86-4.49V8.52a8.27 8.27 0 0 0 4.84 1.55v-3.38z"/></svg>',
+      youtube: '<svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
+      facebook: '<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+    };
+
+    const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    gridEl.innerHTML = publicCreators.map(item => {
+      const icon = ICONS[item.platform] || ICONS.instagram;
+      const fHtml = item.followers ? `<span class="creator-followers"><span dir="ltr">${esc(item.followers)}</span></span>` : '';
+      const hHtml = item.handle ? `<span class="creator-handle" dir="ltr">${esc(item.handle)}</span>` : '';
+      const link = item.url ? `<a href="${encodeURI(item.url)}" target="_blank" rel="noopener noreferrer" class="creator-card-link" aria-label="${esc(item.name)}" style="position:absolute;inset:0;z-index:3;"></a>` : '';
+      return `<li class="creator-card">
+        <img src="${encodeURI(item.photo)}" alt="${esc(item.name)}" loading="lazy" decoding="async" draggable="false" width="280" height="350">
+        <span class="creator-platform" aria-hidden="true">${icon}</span>
+        <div class="creator-info">
+          <span class="creator-name">${esc(item.name)}</span>
+          ${hHtml}
+          ${fHtml}
+        </div>
+        ${link}
+      </li>`;
+    }).join('');
+
+    gridEl.querySelectorAll('.creator-card img').forEach(img => {
+      const setShape = () => {
+        if (!img.naturalWidth || !img.naturalHeight) return;
+        img.width = img.naturalWidth;
+        img.height = img.naturalHeight;
+        if (img.naturalWidth / img.naturalHeight >= 1.3) {
+          const card = img.closest('.creator-card');
+          if (card) card.classList.add('creator-card--wide');
+        }
+      };
+      img.addEventListener('load', setShape);
+      if (img.complete) setShape();
+    });
   }
 
   // Initial Boot
